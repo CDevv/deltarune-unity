@@ -36,7 +36,7 @@ public class DialogueManager : MonoBehaviour
 	AudioClip voice;
 	AudioSource audioClip;
 	Coroutine co;
-	RectTransform rt;
+	RectTransform rt = new RectTransform();
 	bool typing;
 
 	void Start ()
@@ -72,6 +72,7 @@ public class DialogueManager : MonoBehaviour
 
 		foreach(DialogTextBox Textbox in dialogEvent.TextBoxes)
 		{
+			//Debug.Log(Textbox.Character);
 			Textboxes.Enqueue(Textbox);
 		}
 		DisplayNextSentence();
@@ -99,7 +100,11 @@ public class DialogueManager : MonoBehaviour
 		audioClip.clip = voice;
 
 		// FACE SPRITE OF THE TEXTBOX
-		if (Textbox.Character != "Narrator")
+		if (Textbox.Character == null)
+		{
+			textboxImage.color = new Color(255, 255, 255, 0);
+		} 
+		else if (Textbox.Character != "Narrator")
 		{
 			textboxImage.color = new Color(255, 255, 255, 255);
 			textboxImage.sprite = Resources.Load<Sprite>("Sprites/Faces/" + Faces[Textbox.Character]);

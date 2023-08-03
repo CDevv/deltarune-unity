@@ -23,6 +23,7 @@ public class Cutscene_NewIntro : MonoBehaviour
     public void StartDialogueA()
     {
         i++;
+        //Debug.Log(prefix + i);
         dialogueManager_a.StartDialogue(textLibrary[prefix + i]);
     }
     public void StartDialogueB()
