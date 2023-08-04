@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     GameObject[] doors;
     Door doorScript;
 
+    float lastHorizontal = 0f;
+    float lastVertical = 0f;
+
     public static bool inMenu = false;
     private static PlayerController playerInstance;
     void Awake()
@@ -62,6 +65,8 @@ public class PlayerController : MonoBehaviour
             inputHorizontal = 0f;
             inputVertical = 0f;
             anim.SetFloat("Speed", 0f);
+            anim.speed = 0f;
+            anim.Play("Base Layer.Movement", 0, 0f);
         }
         else if (!walking)
         {
@@ -76,6 +81,16 @@ public class PlayerController : MonoBehaviour
                 anim.SetFloat("Horizontal", inputHorizontal);
                 anim.SetFloat("Vertical", inputVertical);
                 direction = new Vector2(inputHorizontal / 6, -.15f + inputVertical / 6);
+
+                lastHorizontal = inputHorizontal;
+                lastVertical = inputVertical;
+            }
+            else {
+                anim.SetFloat("Horizontal", lastHorizontal);
+                anim.SetFloat("Vertical", lastVertical);
+                //direction = new Vector2(inputHorizontal / 6, -.15f + inputVertical / 6);
+                anim.speed = 0f;
+                anim.Play("Base Layer.Movement", 0, 0f);
             }
 
             if (Input.GetButton("Sprint"))
