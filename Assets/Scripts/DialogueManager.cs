@@ -24,14 +24,14 @@ using Newtonsoft.Json;
 
 public class DialogueManager : MonoBehaviour
 {
-    public Text textboxText;
-    public GameObject goTextbox;
+	public Text textboxText;
+	public GameObject goTextbox;
 	public Image textboxImage;
 	[HideInInspector]
 	public DialogTextBox Textbox;
 	[HideInInspector]
 	public string fullText;
-    Queue<DialogTextBox> Textboxes;
+	Queue<DialogTextBox> Textboxes;
 	Dictionary<string, string> Faces = new Dictionary<string, string>();
 	AudioClip voice;
 	AudioSource audioClip;
@@ -39,13 +39,17 @@ public class DialogueManager : MonoBehaviour
 	RectTransform rt = new RectTransform();
 	bool typing;
 
-	void Start ()
+	public GameObject heart;
+
+	void Start()
 	{
 		audioClip = GetComponent<AudioSource>();
 		Textboxes = new Queue<DialogTextBox>();
 		rt = textboxImage.GetComponent<RectTransform>();
-        string json = Resources.Load<TextAsset>("Json/faces").text;
-        Faces = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+		string json = Resources.Load<TextAsset>("Json/faces").text;
+		Faces = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+		heart = goTextbox.transform.Find("Heart").gameObject;
 	}
 
 	void Update()
@@ -54,23 +58,25 @@ public class DialogueManager : MonoBehaviour
 		{
 			if (typing)
 			{
-				if (co != null) {StopCoroutine(co);}
+				if (co != null) { StopCoroutine(co); }
 				typing = false;
 				textboxText.text = fullText;
-			} else {
+			}
+			else
+			{
 				DisplayNextSentence();
 			}
 		}
 	}
 
-	public void StartDialogue (DialogEvent dialogEvent)
+	public void StartDialogue(DialogEvent dialogEvent)
 	{
 		PlayerController.inMenu = true;
 		MenuTop.enableMenu = false;
 		Textboxes.Clear();
 		goTextbox.SetActive(true);
 
-		foreach(DialogTextBox Textbox in dialogEvent.TextBoxes)
+		foreach (DialogTextBox Textbox in dialogEvent.TextBoxes)
 		{
 			//Debug.Log(Textbox.Character);
 			Textboxes.Enqueue(Textbox);
@@ -78,7 +84,7 @@ public class DialogueManager : MonoBehaviour
 		DisplayNextSentence();
 	}
 
-	public void DisplayNextSentence ()
+	public void DisplayNextSentence()
 	{
 		string voiceStr = "";
 
@@ -103,13 +109,15 @@ public class DialogueManager : MonoBehaviour
 		if (Textbox.Character == null)
 		{
 			textboxImage.color = new Color(255, 255, 255, 0);
-		} 
-		else if (Textbox.Character != "Narrator")
+		}
+		else if (Textbox.Character != "Narrator" || Textbox.Character != "options")
 		{
 			textboxImage.color = new Color(255, 255, 255, 255);
 			textboxImage.sprite = Resources.Load<Sprite>("Sprites/Faces/" + Faces[Textbox.Character]);
-        	rt.sizeDelta = new Vector2 (textboxImage.sprite.rect.width, textboxImage.sprite.rect.height);
-		} else {
+			rt.sizeDelta = new Vector2(textboxImage.sprite.rect.width, textboxImage.sprite.rect.height);
+		}
+		else
+		{
 			textboxImage.color = new Color(255, 255, 255, 0);
 		}
 
@@ -117,9 +125,13 @@ public class DialogueManager : MonoBehaviour
 		if (Textbox.Pos != new Vector2(0, 0))
 		{
 			textboxText.rectTransform.anchoredPosition = Textbox.Pos;  // Use custom pos when set
-		} else if(Textbox.Character != null) {
+		}
+		else if (Textbox.Character != null)
+		{
 			textboxText.rectTransform.anchoredPosition = new Vector2(-42, -6); // Default pos for character textboxes
-		} else {
+		}
+		else
+		{
 			textboxText.rectTransform.anchoredPosition = new Vector2(5, 0); // Default pos for floating text
 		}
 
@@ -127,45 +139,75 @@ public class DialogueManager : MonoBehaviour
 		if (Textbox.Size != new Vector2(0, 0))
 		{
 			textboxText.rectTransform.sizeDelta = Textbox.Size;  // Use custom size when set
-		} else if (Textbox.Character == "Narrator" || Textbox.Character == null){
-			textboxText.rectTransform.sizeDelta = new Vector2(505,125);  // Use larger textarea when narrating
-		} else {
-			textboxText.rectTransform.sizeDelta = new Vector2(400,125);   // Default size
 		}
-		
-		// TEXT FORMATTING
-		fullText = WordWrap(Textbox.Text, -2 + (int)textboxText.rectTransform.sizeDelta.x/16);
+		else if (Textbox.Character == "Narrator" || Textbox.Character == null)
+		{
+			textboxText.rectTransform.sizeDelta = new Vector2(505, 125);  // Use larger textarea when narrating
+		}
+		else
+		{
+			textboxText.rectTransform.sizeDelta = new Vector2(400, 125);   // Default size
+		}
 
-		if (co != null) 
+		// TEXT FORMATTING
+		fullText = WordWrap(Textbox.Text, -2 + (int)textboxText.rectTransform.sizeDelta.x / 16);
+
+
+
+		if (co != null)
 			StopCoroutine(co);
 
-		co = StartCoroutine(TypeSentence(fullText, Textbox.Character, Textbox.ShortDelay, Textbox.LongDelay));
+		co = StartCoroutine(TypeSentence(fullText, Textbox.Character, Textbox.Options, Textbox.ShortDelay, Textbox.LongDelay));
 	}
 
-	IEnumerator TypeSentence (string sentence, string character, float shortDelay = .033f, float longDelay = .066f) // The typing and speaking engine
+	IEnumerator TypeSentence(string sentence, string character, DialogOptions[] options, float shortDelay = .033f, float longDelay = .066f) // The typing and speaking engine
 	{
 		typing = true;
 
-		if (shortDelay == 0){shortDelay = .033f;}
-		if (longDelay == 0) {longDelay  = .066f;}
+		if (shortDelay == 0) { shortDelay = .033f; }
+		if (longDelay == 0) { longDelay = .066f; }
 
 		StringBuilder textboxTextSB = new StringBuilder();
-		foreach (char letter in sentence)
+
+		if (options != null)
 		{
-			textboxTextSB.Append(letter);     			 // Appends letter for the typing effect
-            textboxText.text = textboxTextSB.ToString(); // Converts to string to be displayed by the textbox
-
-			char[] array = {',','.','?','!'};
-
-			if (array.Contains(letter))		// No sound, longer pause
+			audioClip.Play();
+			textboxImage.sprite = null;
+			textboxImage.gameObject.SetActive(false);
+			for (int i = 0; i < options.Length; i++)
 			{
-				yield return new WaitForSeconds(longDelay);
+				string optionName = $"TextboxOption{i + 1}";
+				var optionText = goTextbox.transform.Find(optionName).gameObject; //Find the option object
+				optionText.GetComponent<Text>().text = options[i].Title; //Set option text
+				Debug.Log(options[i]);
+				optionText.SetActive(true); //Make it visible
+				textboxText.text = textboxTextSB.ToString();
 
-			} else if(letter != ' ') {		// Normal pause, no sound
-				audioClip.Play();
+				heart.SetActive(true);
 			}
+		}
+		else
+		{
+			
+			foreach (char letter in sentence)
+			{
+				textboxTextSB.Append(letter);                // Appends letter for the typing effect
+				textboxText.text = textboxTextSB.ToString(); // Converts to string to be displayed by the textbox
 
-			yield return new WaitForSeconds(shortDelay);
+				char[] array = { ',', '.', '?', '!' };
+
+				if (array.Contains(letter))     // No sound, longer pause
+				{
+					yield return new WaitForSeconds(longDelay);
+
+				}
+				else if (letter != ' ')
+				{       // Normal pause, no sound
+					audioClip.Play();
+				}
+
+				yield return new WaitForSeconds(shortDelay);
+			}
 		}
 		typing = false;
 	}
@@ -184,14 +226,14 @@ public class DialogueManager : MonoBehaviour
 
 		int currentIndex;
 		var lastWrap = 0;
-		var whitespace = new[] {' ', '\r', '\n', '\t'};
+		var whitespace = new[] { ' ', '\r', '\n', '\t' };
 		do
 		{
 			currentIndex =
 				lastWrap +
 				maxLineLength > text.Length
 					? text.Length
-					: (text.LastIndexOfAny(new[] {' ', ',', '.', '?', '!', ':', ';', '-', '\n', '\r', '\t'},
+					: (text.LastIndexOfAny(new[] { ' ', ',', '.', '?', '!', ':', ';', '-', '\n', '\r', '\t' },
 							Math.Min(text.Length - 1, lastWrap + maxLineLength)) + 1);
 			if (currentIndex <= lastWrap)
 				currentIndex = Math.Min(lastWrap + maxLineLength, text.Length);
@@ -205,5 +247,10 @@ public class DialogueManager : MonoBehaviour
 			str += line + "\n";
 
 		return str.TrimEnd('\n');
+	}
+
+	private Text GetOptionText(string name) {
+		Text[] arr = goTextbox.GetComponentsInChildren<Text>();
+		return arr.Where(x => x.name == name).FirstOrDefault();
 	}
 }

@@ -15,6 +15,7 @@ public class DialogTextBox
     [JsonProperty("height")]     public int Height;
     [JsonProperty("shortdelay")] public float ShortDelay;
     [JsonProperty("longdelay")]  public float LongDelay;
+    [JsonProperty("options")]    public DialogOptions[] Options;
 
     public Vector2 Size { get { return new Vector2(Width, Height); } }
     public Vector2 Pos { get { return new Vector2(PosX, PosY); } }

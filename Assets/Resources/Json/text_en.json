@@ -112,7 +112,7 @@
         "longDelay": 0.1,
         "width": 900,
         "height": 250,
-        "posx" : -50
+        "posx": -50
       }
     ]
   },
@@ -124,15 +124,15 @@
         "longDelay": 0.1,
         "width": 320,
         "height": 250,
-        "posx" : -320
+        "posx": -320
       },
       {
         "text": "It was\na LEGEND\nof LIGHT.",
         "shortDelay": 0.1,
         "longDelay": 0.1,
-        "width" : 320,
+        "width": 320,
         "height": 250,
-        "posx" : -320
+        "posx": -320
       }
     ]
   },
@@ -142,17 +142,17 @@
         "text": "It was\na LEGEND\nof DREAMS.",
         "shortDelay": 0.1,
         "longDelay": 0.1,
-        "width" : 320,
+        "width": 320,
         "height": 250,
-        "posx" : 280
+        "posx": 280
       },
       {
         "text": "It was\na LEGEND\nof DARK.",
         "shortDelay": 0.1,
         "longDelay": 0.1,
-        "width" : 320,
+        "width": 320,
         "height": 250,
-        "posx" : 280
+        "posx": 280
       }
     ]
   },
@@ -162,7 +162,7 @@
         "text": "This is the legend of",
         "shortDelay": 0.1,
         "longDelay": 0.1,
-        "width" : 750,
+        "width": 750,
         "height": 250
       }
     ]
@@ -173,10 +173,10 @@
         "text": "DELTA RUNE",
         "shortDelay": 0.1,
         "longDelay": 0.1,
-        "width" : 350,
+        "width": 350,
         "height": 250,
-        "posy" : -70,
-        "posx" : -30
+        "posy": -70,
+        "posx": -30
       }
     ]
   },
@@ -186,7 +186,6 @@
         "text": "For millenia, LIGHT and DARK have lived in balance,",
         "shortDelay": 0.066,
         "longDelay": 0.066
-        
       },
       {
         "text": "Bringing peace to the WORLD.",
@@ -197,18 +196,18 @@
         "text": "But if this harmony were to shatter...",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 620,
+        "width": 620,
         "height": 250,
-        "posx" : -60
+        "posx": -60
       },
       {
         "text": "A terrible calamity would occur.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 1040,
+        "width": 1040,
         "height": 250,
-        "posx" : 0,
-        "posy" : 320
+        "posx": 0,
+        "posy": 320
       }
     ]
   },
@@ -218,49 +217,49 @@
         "text": "The sky will run black with terror",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 560,
-        "height" : 250,
-        "posx" : -30,
-        "posy" : -110
+        "width": 560,
+        "height": 250,
+        "posx": -30,
+        "posy": -110
       },
       {
         "text": "And the land will crack with fear.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 560,
-        "height" : 250,
-        "posx" : -30,
-        "posy" : -110
+        "width": 560,
+        "height": 250,
+        "posx": -30,
+        "posy": -110
       },
       {
         "text": "Then, her heart pounding...",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "posy" : -110
+        "posy": -110
       },
       {
         "text": "The EARTH will draw her final breath.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 650,
-        "height" : 250,
-        "posx" : 0,
-        "posy" : -110
+        "width": 650,
+        "height": 250,
+        "posx": 0,
+        "posy": -110
       },
       {
         "text": "Only then, shining with hope...",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "posy" : -110
+        "posy": -110
       },
       {
         "text": "Three HEROES appear at WORLD's edge.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 620,
-        "height" : 250,
-        "posx" : 0,
-        "posy" : -110
+        "width": 620,
+        "height": 250,
+        "posx": 0,
+        "posy": -110
       }
     ]
   },
@@ -270,10 +269,10 @@
         "text": "A HUMAN,",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 300,
+        "width": 300,
         "height": 250,
-        "posx" : -400,
-        "posy" : -110
+        "posx": -400,
+        "posy": -110
       }
     ]
   },
@@ -283,10 +282,10 @@
         "text": "A MONSTER,",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 350,
+        "width": 350,
         "height": 250,
-        "posx" : -50,
-        "posy" : -110
+        "posx": -50,
+        "posy": -110
       }
     ]
   },
@@ -296,10 +295,10 @@
         "text": "And a PRINCE FROM THE DARK.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 500,
+        "width": 500,
         "height": 250,
-        "posx" : 400,
-        "posy" : -110
+        "posx": 400,
+        "posy": -110
       }
     ]
   },
@@ -309,60 +308,60 @@
         "text": "Only they can seal the fountains",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 1150,
+        "width": 1150,
         "height": 250,
-        "posx" : 60,
-        "posy" : -110
+        "posx": 60,
+        "posy": -110
       },
       {
         "text": "And banish the ANGEL'S HEAVEN.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 1150,
+        "width": 1150,
         "height": 250,
-        "posx" : 60,
-        "posy" : -110
+        "posx": 60,
+        "posy": -110
       },
       {
         "text": "Only then will balance be restored,",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 720,
-        "height" : 250,
-        "posx" : 40,
-        "posy" : -110
+        "width": 720,
+        "height": 250,
+        "posx": 40,
+        "posy": -110
       },
       {
         "text": "And the WORLD saved from destruction.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 620,
-        "height" : 250,
-        "posx" : 0,
-        "posy" : -110
+        "width": 620,
+        "height": 250,
+        "posx": 0,
+        "posy": -110
       },
       {
         "text": "Today, the FOUNTAIN OF DARKNESS-",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 1050,
+        "width": 1050,
         "height": 250
       },
       {
         "text": "The geyser that\ngives this land form-",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 680,
-        "height" : 250,
-        "posx" : 0
+        "width": 680,
+        "height": 250,
+        "posx": 0
       },
       {
         "text": "Stands tall at the\ncenter of the kingdom.",
         "shortDelay": 0.066,
         "longDelay": 0.066,
-        "width" : 720,
-        "height" : 250,
-        "posx" : 0
+        "width": 720,
+        "height": 250,
+        "posx": 0
       },
       {
         "text": "But recently, another fountain has appeared on the horizon...",
@@ -416,6 +415,20 @@
       {
         "text": "* Maybe it's because you and I make a great team!",
         "character": "Ralsei_7"
+      },
+      {
+        "character": "Ralsei_7",
+        "text": "(options)",
+        "options": [
+          {
+            "title": "Option 1",
+            "dialogue_id": "mysterious_i"
+          },
+          {
+            "title": "Option 2",
+            "dialogue_id": "mysterious_i"
+          }
+        ]
       }
     ]
   }
