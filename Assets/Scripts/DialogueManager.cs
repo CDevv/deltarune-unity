@@ -40,6 +40,11 @@ public class DialogueManager : MonoBehaviour
 	bool typing;
 
 	public GameObject heart;
+	bool optionsAvailable = false;
+	DialogOptions[] dialogOptions = new DialogOptions[0];
+	int optionChosen = -1; //-1 for no option is chosen
+
+	private Dictionary<string, DialogEvent> textLibrary = new Dictionary<string, DialogEvent>();
 
 	void Start()
 	{
@@ -49,28 +54,87 @@ public class DialogueManager : MonoBehaviour
 		string json = Resources.Load<TextAsset>("Json/faces").text;
 		Faces = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
+		json = Resources.Load<TextAsset>("Json/text_en").text;
+		textLibrary = JsonConvert.DeserializeObject<Dictionary<string, DialogEvent>>(json);
+
 		heart = goTextbox.transform.Find("Heart").gameObject;
 	}
 
 	void Update()
 	{
+		float inputHorizontal = Input.GetAxisRaw("Horizontal");
+		float inputVertical = Input.GetAxisRaw("Vertical");
+
 		if (Input.GetButtonDown("Confirm"))
 		{
-			if (typing)
+			if (!optionsAvailable)
 			{
-				if (co != null) { StopCoroutine(co); }
-				typing = false;
-				textboxText.text = fullText;
+				if (typing)
+				{
+					if (co != null) { StopCoroutine(co); }
+					typing = false;
+					textboxText.text = fullText;
+				}
+				else
+				{
+					DisplayNextSentence();
+				}
 			}
 			else
 			{
-				DisplayNextSentence();
+				if (optionChosen != -1)
+				{
+					StartDialogue(textLibrary[dialogOptions[optionChosen - 1].DialogID]);
+				}
+			}
+		}
+
+		//up, down, left, right
+		if (inputVertical > 0)
+		{
+			if (dialogOptions.Length > 2)
+			{
+				ChangeOption(3);
+			}
+		}
+		if (inputVertical < 0)
+		{
+			if (dialogOptions.Length > 3)
+			{
+				ChangeOption(4);
+			}
+		}
+		if (inputHorizontal > 0)
+		{
+			if (dialogOptions.Length > 1)
+			{
+				ChangeOption(2);
+			}
+		}
+		if (inputHorizontal < 0)
+		{
+			if (dialogOptions.Length > 0)
+			{
+				ChangeOption(1);
 			}
 		}
 	}
 
 	public void StartDialogue(DialogEvent dialogEvent)
 	{
+		textboxImage.gameObject.SetActive(true);
+		for (int i = 0; i < dialogOptions.Length; i++)
+		{
+			string optionName = $"TextboxOption{i+1}";
+			var option = goTextbox.transform.Find(optionName).gameObject;
+			option.GetComponent<Text>().color = new Color(255, 255, 255, 255);
+			option.SetActive(false);
+		}
+		dialogOptions = new DialogOptions[0];
+		heart.SetActive(false);
+		RectTransform heartRect = heart.GetComponent<RectTransform>();
+		heartRect.anchoredPosition = new Vector2(0, 0);
+
 		PlayerController.inMenu = true;
 		MenuTop.enableMenu = false;
 		Textboxes.Clear();
@@ -171,9 +235,13 @@ public class DialogueManager : MonoBehaviour
 
 		if (options != null)
 		{
+			optionsAvailable = true;
+			dialogOptions = options;
+
 			audioClip.Play();
 			textboxImage.sprite = null;
 			textboxImage.gameObject.SetActive(false);
+			heart.SetActive(true);
 			for (int i = 0; i < options.Length; i++)
 			{
 				string optionName = $"TextboxOption{i + 1}";
@@ -182,13 +250,11 @@ public class DialogueManager : MonoBehaviour
 				Debug.Log(options[i]);
 				optionText.SetActive(true); //Make it visible
 				textboxText.text = textboxTextSB.ToString();
-
-				heart.SetActive(true);
 			}
 		}
 		else
 		{
-			
+			optionsAvailable = false;
 			foreach (char letter in sentence)
 			{
 				textboxTextSB.Append(letter);                // Appends letter for the typing effect
@@ -216,6 +282,15 @@ public class DialogueManager : MonoBehaviour
 	{
 		goTextbox.SetActive(false);
 		textboxText.text = "";
+		textboxImage.gameObject.SetActive(false);
+		for (int i = 0; i < dialogOptions.Length; i++)
+		{
+			string optionName = $"TextboxOption{i+1}";
+			var option = goTextbox.transform.Find(optionName).gameObject;
+			option.GetComponent<Text>().color = new Color(255, 255, 255, 255);
+			option.SetActive(false);
+		}
+		dialogOptions = new DialogOptions[0];
 		PlayerController.inMenu = false;
 		MenuTop.enableMenu = true;
 	}
@@ -249,8 +324,23 @@ public class DialogueManager : MonoBehaviour
 		return str.TrimEnd('\n');
 	}
 
-	private Text GetOptionText(string name) {
-		Text[] arr = goTextbox.GetComponentsInChildren<Text>();
-		return arr.Where(x => x.name == name).FirstOrDefault();
+	private void ChangeOption(int n)
+	{
+		string optionName = "";
+		if (optionChosen != -1)
+		{
+			optionName = $"TextboxOption{optionChosen}";
+			var option = goTextbox.transform.Find(optionName).gameObject;
+			option.GetComponent<Text>().color = new Color(255, 255, 255, 255);
+		}
+		optionChosen = n;
+		optionName = $"TextboxOption{optionChosen}";
+		var optionText = goTextbox.transform.Find(optionName).gameObject;
+		optionText.GetComponent<Text>().color = new Color(255, 255, 0, 255);
+
+		RectTransform heartRect = heart.GetComponent<RectTransform>();
+		RectTransform optionRect = optionText.GetComponent<RectTransform>();
+		Vector2 vector2 = new Vector2(optionRect.anchoredPosition.x + optionRect.rect.width / 2, optionRect.anchoredPosition.y);
+		heartRect.anchoredPosition = vector2;
 	}
 }
