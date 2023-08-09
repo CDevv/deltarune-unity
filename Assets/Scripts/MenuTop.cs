@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class MenuTop : MonoBehaviour
 {
+    public GameObject menuUI;
     [HideInInspector]
     public static bool isOpen = false;
     public static bool enableMenu = true;
@@ -18,11 +19,14 @@ public class MenuTop : MonoBehaviour
     public bool langIsJapanese;
     public Image description;
     List<Sprite> menuDesc = new List<Sprite>();
-    
+
+    GameMenuManager menuManager;
 
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
+
+        menuManager = new GameMenuManager(menuUI);
         
         for (int i = 0; i < 5; i++)
         {
@@ -63,6 +67,8 @@ public class MenuTop : MonoBehaviour
     public void SelectItems()
     {
         Debug.Log("Selected Items!");
+        menuUI.SetActive(true);
+        menuManager.ChangePage("Items");
     }
 
     public void HoverEquipment()
