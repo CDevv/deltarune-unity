@@ -27,7 +27,7 @@ public class MenuTop : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
 
         menuManager = new GameMenuManager(menuUI);
-        
+
         for (int i = 0; i < 5; i++)
         {
             if (langIsJapanese)
@@ -35,28 +35,51 @@ public class MenuTop : MonoBehaviour
             else
                 menuDesc.Add(Resources.Load<Sprite>("Sprites/Ui/darkmenudesc" + i.ToString()));
         }
-        
+
     }
     void Update()
     {
         if (Input.GetButtonDown("Menu") && enableMenu == true)
         {
-            isOpen = !isOpen;
-
-            anim.SetBool("IsOpen", isOpen);
-
-            buttons = GetComponentsInChildren<Button>();
-
-            foreach(Button button in buttons)
+            if (menuManager.level == 0)
             {
-                button.interactable = isOpen;
+                isOpen = !isOpen;
+
+                anim.SetBool("IsOpen", isOpen);
+
+                buttons = GetComponentsInChildren<Button>();
+
+                foreach (Button button in buttons)
+                {
+                    button.interactable = isOpen;
+                }
+                if (isOpen)
+                {
+                    Button firstButton = GetComponentInChildren<Button>();
+
+                    firstButton.Select();
+                    firstButton.OnSelect(null);
+                }
             }
-            if (isOpen)
+
+
+        }
+
+        if (Input.GetButtonDown("ReturnMenu"))
+        {
+            if (menuManager.level != 0)
             {
-                Button firstButton = GetComponentInChildren<Button>();
-                
-                firstButton.Select();
-                firstButton.OnSelect(null);
+                menuManager.level -= 1;
+                menuUI.SetActive(false);
+
+                foreach (Button button in buttons)
+                {
+                    button.interactable = true;
+                    if (button.gameObject.name == menuManager.currentPage)
+                    {
+                        button.Select();
+                    }
+                }
             }
         }
     }
@@ -67,8 +90,7 @@ public class MenuTop : MonoBehaviour
     public void SelectItems()
     {
         Debug.Log("Selected Items!");
-        menuUI.SetActive(true);
-        menuManager.ChangePage("Items");
+        MenuPage("Items");
     }
 
     public void HoverEquipment()
@@ -78,6 +100,7 @@ public class MenuTop : MonoBehaviour
     public void SelectEquipment()
     {
         Debug.Log("Selected Equipment!");
+        MenuPage("Equipment");
     }
 
     public void HoverStats()
@@ -87,6 +110,7 @@ public class MenuTop : MonoBehaviour
     public void SelectStats()
     {
         Debug.Log("Selected Stats!");
+        MenuPage("Stats");
     }
 
     public void HoverSettings()
@@ -96,5 +120,19 @@ public class MenuTop : MonoBehaviour
     public void SelectSettings()
     {
         Debug.Log("Selected Settings!");
+        MenuPage("Settings");
+    }
+
+    //more methods
+    private void MenuPage(string name)
+    {
+        menuUI.SetActive(true);
+        menuManager.ChangePage(name);
+        menuManager.level = 1;
+
+        foreach (Button button in buttons)
+        {
+            button.interactable = false;
+        }
     }
 }
