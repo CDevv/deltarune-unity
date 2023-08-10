@@ -12,10 +12,12 @@ public class GameMenuManager
     public int level = 0;
     public GameObject heart;
     public GameObject pageObj;
+    public GameMenu script;
 
     public GameMenuManager(GameObject gameObject)
     {
         this.UI = gameObject;
+        this.script = gameObject.GetComponent<GameMenu>();
         this.heart = gameObject.transform.Find("Heart").gameObject;
         this.pages["Items"] = gameObject.transform.Find("page-Items").gameObject;
         this.pages["Equipment"] = gameObject.transform.Find("page-Equipment").gameObject;

@@ -20,13 +20,13 @@ public class MenuTop : MonoBehaviour
     public Image description;
     List<Sprite> menuDesc = new List<Sprite>();
 
-    GameMenuManager menuManager;
+    GameMenu menuManager;
 
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
 
-        menuManager = new GameMenuManager(menuUI);
+        menuManager = menuUI.GetComponent<GameMenu>();
 
         for (int i = 0; i < 5; i++)
         {
