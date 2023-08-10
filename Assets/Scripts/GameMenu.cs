@@ -15,7 +15,7 @@ public class GameMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.heart = ui.transform.Find("Heart").gameObject;
+        //this.heart = ui.transform.Find("Heart").gameObject;
         this.pages["Items"] = ui.transform.Find("page-Items").gameObject;
         this.pages["Equipment"] = ui.transform.Find("page-Equipment").gameObject;
         this.pages["Stats"] = ui.transform.Find("page-Stats").gameObject;
@@ -28,9 +28,13 @@ public class GameMenu : MonoBehaviour
         
     }
 
-    public void ButtonHover()
+    public void ButtonHover(GameObject button)
     {
         Debug.Log("Selected button");
+        RectTransform rect = heart.GetComponent<RectTransform>();
+        RectTransform optionRect = button.GetComponent<RectTransform>();
+        Vector2 vector2 = new Vector2(optionRect.position.x - (optionRect.rect.width / 2) - 10, optionRect.position.y);
+        rect.position = vector2;
     }
 
     public void ChangePage(string name)
@@ -48,6 +52,7 @@ public class GameMenu : MonoBehaviour
 
     public void PageItems()
     {
+        heart.SetActive(true);
         Button firstButton = pageObj.GetComponentInChildren<Button>();
         firstButton.Select();
     }

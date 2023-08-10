@@ -1883,6 +1883,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecd00defacf691b4eb82045f47aa13e2, type: 3}
+--- !u!1 &965082007 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4149024682711849777, guid: e5d8705fbfff21640a7283281f94ca3b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2142207757}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1026905270 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3394240847509065361, guid: ecd00defacf691b4eb82045f47aa13e2,
@@ -2923,8 +2929,20 @@ MonoBehaviour:
   ui: {fileID: 1633837993}
   currentPage: Items
   level: 0
-  heart: {fileID: 0}
+  heart: {fileID: 965082007}
   pageObj: {fileID: 0}
+--- !u!114 &1633837996 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5235832313822387475, guid: e5d8705fbfff21640a7283281f94ca3b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2142207757}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633837993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7f1ea1fbb5d5c54b9327ae2260f0070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1636318351
 GameObject:
   m_ObjectHideFlags: 0
@@ -4013,7 +4031,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1633837995}
+      objectReference: {fileID: 1633837996}
     - target: {fileID: 4425869375826600523, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -4027,7 +4045,7 @@ PrefabInstance:
     - target: {fileID: 4425869375826600523, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5680037061108590026, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
