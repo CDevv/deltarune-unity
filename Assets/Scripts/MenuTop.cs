@@ -36,6 +36,8 @@ public class MenuTop : MonoBehaviour
                 menuDesc.Add(Resources.Load<Sprite>("Sprites/Ui/darkmenudesc" + i.ToString()));
         }
 
+        menuManager.Setup(transform.gameObject);
+
     }
     void Update()
     {
@@ -67,7 +69,7 @@ public class MenuTop : MonoBehaviour
 
         if (Input.GetButtonDown("ReturnMenu"))
         {
-            if (menuManager.level != 0)
+            if (menuManager.level == 1)
             {
                 menuManager.level -= 1;
                 menuUI.SetActive(false);
@@ -79,6 +81,17 @@ public class MenuTop : MonoBehaviour
                     {
                         button.Select();
                     }
+                }
+            }
+            else if (menuManager.level == 2)
+            {
+                switch (menuManager.currentPage)
+                {
+                    default:
+                        break;
+                    case "Items":
+                        menuManager.ItemsReturnTop();
+                        break;
                 }
             }
         }
@@ -127,6 +140,7 @@ public class MenuTop : MonoBehaviour
     private void MenuPage(string name)
     {
         menuUI.SetActive(true);
+        menuManager.Refresh();
         menuManager.ChangePage(name);
         menuManager.level = 1;
 
@@ -134,5 +148,25 @@ public class MenuTop : MonoBehaviour
         {
             button.interactable = false;
         }
+    }
+
+    public void ShowItemDesc()
+    {
+        foreach (Transform item in transform)
+        {
+            item.gameObject.SetActive(false);
+        }
+        GameObject container = transform.Find("ItemDescContainer").gameObject;
+        container.SetActive(true);
+    }
+
+    public void HideItemDesc()
+    {
+        foreach (Transform item in transform)
+        {
+            item.gameObject.SetActive(true);
+        }
+        GameObject container = transform.Find("ItemDescContainer").gameObject;
+        container.SetActive(false);
     }
 }

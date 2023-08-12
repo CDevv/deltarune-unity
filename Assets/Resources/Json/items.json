@@ -1,0 +1,14 @@
+[
+	{
+		"name": "cocaine",
+		"type": "heal",
+		"description": "Why do you have this? Heals 30HP",
+		"effects": 30,
+	},
+	{
+		"name": "weed",
+		"type": "heal",
+		"description": "Why do you have this? Heals 30HP",
+		"effects": 30,
+	}
+]
