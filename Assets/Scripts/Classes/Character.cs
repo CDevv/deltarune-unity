@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Linq;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class Character
@@ -33,4 +34,31 @@ public class Character
 
     }
     */
+
+    public void AddHP(int value)
+    {
+        if (Hp + value <= Maxhp)
+        {
+            Hp += value;
+        }
+        else
+        {
+            Hp += Mathf.Abs((Hp + value) - Maxhp);
+        }
+    }
+
+    public void RemoveItem(string name)
+    {
+        for (int i = 0; i < Inventory.Length; i++)
+        {
+            if (Inventory[i] == name)
+            {
+                Inventory[i] = "";
+                break;
+            }
+        }
+        List<string> list = Inventory.ToList();
+        list.Sort();
+        Inventory = list.ToArray();
+    }
 }

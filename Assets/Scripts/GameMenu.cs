@@ -16,21 +16,17 @@ public class GameMenu : MonoBehaviour
     public GameObject heart;
     public GameObject pageObj;
 
-    private Character character;
-    private GameObject menuTop;
-    private MenuTop menuTopScript;
+    public Character character;
+    private MenuTop menuTop;
+    private MenuBottom menuBottom;
+
+    public Item selectedItem;
 
     // Start is called before the first frame update
     void Start()
     {
         //this.heart = ui.transform.Find("Heart").gameObject;
-        this.pages["Items"] = ui.transform.Find("page-Items").gameObject;
-        this.pages["Equipment"] = ui.transform.Find("page-Equipment").gameObject;
-        this.pages["Stats"] = ui.transform.Find("page-Stats").gameObject;
-        this.pages["Settings"] = ui.transform.Find("page-Settings").gameObject;
-
-        string json = Resources.Load<TextAsset>("Json/chara").text;
-        this.character = JsonConvert.DeserializeObject<List<Character>>(json).Find(x => x.Name == "Kris");
+        
     }
 
     // Update is called once per frame
@@ -39,10 +35,10 @@ public class GameMenu : MonoBehaviour
         
     }
 
-    public void Setup(GameObject topObj)
+    public void Setup(MenuTop topObj, MenuBottom bottomObj)
     {
         this.menuTop = topObj;
-        this.menuTopScript = topObj.GetComponent<MenuTop>();
+        this.menuBottom = bottomObj;
 
         this.pages["Items"] = ui.transform.Find("page-Items").gameObject;
         this.pages["Equipment"] = ui.transform.Find("page-Equipment").gameObject;
@@ -93,8 +89,19 @@ public class GameMenu : MonoBehaviour
         GameObject button = baseEvent.selectedObject;
         RectTransform rect = heart.GetComponent<RectTransform>();
         RectTransform optionRect = button.GetComponent<RectTransform>();
-        Vector2 vector2 = new Vector2(optionRect.position.x - (optionRect.rect.width / 2) - 10, optionRect.position.y);
+        Vector2 vector2 = new Vector2(optionRect.position.x - (optionRect.rect.width / 2) - 16, optionRect.position.y - 3);
         rect.position = vector2;
+    }
+
+    public void AddEventToButton(GameObject gameObject, UnityEngine.Events.UnityAction<BaseEventData> call, EventTriggerType type)
+    {
+        EventTrigger eventTrigger = gameObject.GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+
+        entry.eventID = type;
+        entry.callback = new EventTrigger.TriggerEvent();
+        entry.callback.AddListener(call);
+        eventTrigger.triggers.Add(entry);
     }
 
     public void ChangePage(string name)
@@ -124,16 +131,12 @@ public class GameMenu : MonoBehaviour
             GameObject newBtn = Instantiate(optionPrefab, itemsContainer.transform);
             newBtn.GetComponentInChildren<Text>().text = itemName;
             RectTransform rect = newBtn.GetComponent<RectTransform>();
-            EventTrigger eventTrigger = newBtn.GetComponent<EventTrigger>();
-            EventTrigger.Entry entry = new EventTrigger.Entry();
             Button button = newBtn.GetComponent<Button>();
-
-            entry.eventID = EventTriggerType.Select;
-            entry.callback = new EventTrigger.TriggerEvent();
-            UnityEngine.Events.UnityAction<BaseEventData> call = new UnityEngine.Events.UnityAction<BaseEventData>(ItemHover);
-            entry.callback.AddListener(call);
-            eventTrigger.triggers.Add(entry);
-
+            
+            UnityEngine.Events.UnityAction<BaseEventData> callSelect = new UnityEngine.Events.UnityAction<BaseEventData>(ItemHover);
+            UnityEngine.Events.UnityAction<BaseEventData> callClick = new UnityEngine.Events.UnityAction<BaseEventData>(ItemClick);
+            AddEventToButton(newBtn, callSelect, EventTriggerType.Select);
+            AddEventToButton(newBtn, callClick, EventTriggerType.Submit);
             //rect.localPosition = new Vector3(36 + rect.rect.width, 10 + i * 5);
         }
     }
@@ -161,7 +164,7 @@ public class GameMenu : MonoBehaviour
         Button firstButton = top.GetComponentInChildren<Button>();
         firstButton.Select();
 
-        menuTopScript.HideItemDesc();
+        menuTop.HideItemDesc();
     }
 
     public void ItemHover(BaseEventData baseEvent)
@@ -173,8 +176,16 @@ public class GameMenu : MonoBehaviour
         string itemJSON = Resources.Load<TextAsset>("Json/items").text;
         Item item = JsonConvert.DeserializeObject<List<Item>>(itemJSON).Find(x => x.Name == itemID);
 
-        GameObject container = menuTop.transform.Find("ItemDescContainer").gameObject;
-        container.GetComponentInChildren<Text>().text = item.Description;
-        menuTopScript.ShowItemDesc();
+        menuTop.SetItemDesc(item.Description);
+        menuTop.ShowItemDesc();
+
+        selectedItem = item;
+    }
+
+    public void ItemClick(BaseEventData baseEvent)
+    {
+        menuBottom.ToggleButtons(true);
+        GameObject firstButton = menuBottom.GetFirst();
+        firstButton.GetComponent<Button>().Select();
     }
 }

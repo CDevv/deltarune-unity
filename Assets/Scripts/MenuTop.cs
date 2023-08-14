@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class MenuTop : MonoBehaviour
 {
     public GameObject menuUI;
+    public GameObject menuBottom;
     [HideInInspector]
     public static bool isOpen = false;
     public static bool enableMenu = true;
@@ -21,12 +22,14 @@ public class MenuTop : MonoBehaviour
     List<Sprite> menuDesc = new List<Sprite>();
 
     GameMenu menuManager;
+    MenuBottom menuBottomScript;
 
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
 
         menuManager = menuUI.GetComponent<GameMenu>();
+        menuBottomScript = menuBottom.GetComponent<MenuBottom>();
 
         for (int i = 0; i < 5; i++)
         {
@@ -36,8 +39,7 @@ public class MenuTop : MonoBehaviour
                 menuDesc.Add(Resources.Load<Sprite>("Sprites/Ui/darkmenudesc" + i.ToString()));
         }
 
-        menuManager.Setup(transform.gameObject);
-
+        menuManager.Setup(transform.gameObject.GetComponent<MenuTop>(), menuBottomScript);
     }
     void Update()
     {
@@ -62,6 +64,8 @@ public class MenuTop : MonoBehaviour
                     firstButton.Select();
                     firstButton.OnSelect(null);
                 }
+
+                menuBottomScript.UpdateMenu();
             }
 
 
@@ -168,5 +172,11 @@ public class MenuTop : MonoBehaviour
         }
         GameObject container = transform.Find("ItemDescContainer").gameObject;
         container.SetActive(false);
+    }
+
+    public void SetItemDesc(string desc)
+    {
+        GameObject container = transform.Find("ItemDescContainer").gameObject;
+        container.GetComponentInChildren<Text>().text = desc;
     }
 }
