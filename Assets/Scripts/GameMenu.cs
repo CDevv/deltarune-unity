@@ -67,8 +67,6 @@ public class GameMenu : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
-
-        string json = Resources.Load<TextAsset>("Json/chara").text;
         //this.character = JsonConvert.DeserializeObject<List<Character>>(json).Find(x => x.Name == "Kris");
     }
 
@@ -140,7 +138,7 @@ public class GameMenu : MonoBehaviour
 
     public void OnSelectItemsAction()
     {
-        this.level++;
+        this.level = 2;
         GameObject top = pageObj.transform.Find("TopOptions").gameObject;
         GameObject itemsContainer = pageObj.transform.Find("ItemsContainer").gameObject;
         top.GetComponent<CanvasGroup>().interactable = false;
@@ -152,7 +150,7 @@ public class GameMenu : MonoBehaviour
 
     public void ItemsReturnTop()
     {
-        this.level--;
+        this.level = 1;
         GameObject top = pageObj.transform.Find("TopOptions").gameObject;
         GameObject itemsContainer = pageObj.transform.Find("ItemsContainer").gameObject;
         top.GetComponent<CanvasGroup>().interactable = true;
@@ -180,6 +178,7 @@ public class GameMenu : MonoBehaviour
 
     public void ItemClick(BaseEventData baseEvent)
     {
+        heart.SetActive(false);
         Global.menuBottom.ToggleButtons(true);
         GameObject firstButton = Global.menuBottom.GetFirst();
         firstButton.GetComponent<Button>().Select();

@@ -4303,6 +4303,11 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7357941370625614837, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8382160723138347875, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: m_AnchorMax.y

@@ -13,6 +13,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.TextCore.Text;
 
 public class MenuBottom : MonoBehaviour
 {
@@ -28,10 +29,6 @@ public class MenuBottom : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
         // I need to get rid of animators and make my own probably
         childrensTransforms = new List<Transform>();
-
-        // Read the json and put Characters in a list
-        string json = Resources.Load<TextAsset>("Json/chara").text;
-        characterList = JsonConvert.DeserializeObject<List<Character>>(json);
     }
 
     void Update()
@@ -60,6 +57,8 @@ public class MenuBottom : MonoBehaviour
                         MenuCharaInfo menuCharaInfo = newMenu.gameObject.GetComponent<MenuCharaInfo>();
                         menuCharaInfo.character = chara;
 
+                        menuCharaInfo.UpdateElement();
+
                         UnityAction<BaseEventData> callSelect = new UnityAction<BaseEventData>(OnCharSelect);
                         UnityAction<BaseEventData> callDeselect = new UnityAction<BaseEventData>(OnCharDeselect);
                         UnityAction<BaseEventData> callClick = new UnityAction<BaseEventData>(OnCharClick);
@@ -72,6 +71,7 @@ public class MenuBottom : MonoBehaviour
                     { // Else, just update the infos.
                         MenuCharaInfo menuCharaInfo = menuTransform.gameObject.GetComponent<MenuCharaInfo>();
                         menuCharaInfo.character = chara;
+                        menuCharaInfo.UpdateElement();
                     }
 
 
@@ -130,18 +130,25 @@ public class MenuBottom : MonoBehaviour
     public void OnCharSelect(BaseEventData baseEvent)
     {
         GameObject gameObject = baseEvent.selectedObject;
+        MenuCharaInfo menuCharaInfo = gameObject.GetComponent<MenuCharaInfo>();
         Character character = gameObject.GetComponent<MenuCharaInfo>().character;
         Image image = gameObject.GetComponent<Image>();
         Color color = new Color(character.Color[0], character.Color[1], character.Color[2]);
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Ui/head" + character.Name + "7");
         image.color = color;
+        menuCharaInfo.playerImg.sprite = sprite;
     }
 
     public void OnCharDeselect(BaseEventData baseEvent)
     {
         GameObject gameObject = baseEvent.selectedObject;
+        MenuCharaInfo menuCharaInfo = gameObject.GetComponent<MenuCharaInfo>();
+        Character character = menuCharaInfo.character;
         Image image = gameObject.GetComponent<Image>();
         Color color = new Color((float)0.2, (float)0.1254902, (float)0.2);
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Ui/head" + character.Name + "0");
         image.color = color;
+        menuCharaInfo.playerImg.sprite = sprite;
     }
 
     public void OnCharClick(BaseEventData baseEvent)
@@ -152,23 +159,21 @@ public class MenuBottom : MonoBehaviour
         Debug.Log("Used " + Global.gameMenu.selectedItem.Name);
 
         character.AddHP(Global.gameMenu.selectedItem.Effect);
-        Debug.Log(character.Hp);
         Global.mainChar.RemoveItem(Global.gameMenu.selectedItem.Name);
 
         //SaveCharacters();
         Character newChar = character;
-        characterList.Remove(character);
-        characterList.Add(newChar);
-        Debug.Log(string.Join(", ", Global.mainChar.Inventory));
+        Global.characterList.Remove(character);
+        Global.characterList.Add(newChar);
 
         UpdateMenu();
         Global.gameMenu.Refresh();
         Global.gameMenu.PageItems();
 
-        Global.gameMenu.OnSelectItemsAction();
-        Global.gameMenu.level--;
-
         ToggleButtons(false);
+
+        Global.gameMenu.heart.SetActive(true);
+        Global.gameMenu.ItemsReturnTop();
     }
 
     public void SaveCharacters()
