@@ -19,7 +19,8 @@ public class MenuBottom : MonoBehaviour
     Animator anim;
     private List<Character> characterList;
     public GameObject characterMenu;
-    public GameMenu gameMenu;
+    public GameObject menuUI;
+    private GameMenu gameMenu;
     List<Transform> childrensTransforms;
 
     void Start()
@@ -40,14 +41,12 @@ public class MenuBottom : MonoBehaviour
 
     public void UpdateMenu()
     {
-        string json = Resources.Load<TextAsset>("Json/chara").text;
-        characterList = JsonConvert.DeserializeObject<List<Character>>(json);
 
         anim.SetBool("IsOpen", MenuTop.isOpen);
 
         if (MenuTop.isOpen)
         {
-            foreach (Character chara in characterList)
+            foreach (Character chara in Global.characterList)
             {
                 string menuName = chara.Name + "_menu";
                 Transform menuTransform = gameObject.transform.Find(menuName);
@@ -64,9 +63,10 @@ public class MenuBottom : MonoBehaviour
                         UnityAction<BaseEventData> callSelect = new UnityAction<BaseEventData>(OnCharSelect);
                         UnityAction<BaseEventData> callDeselect = new UnityAction<BaseEventData>(OnCharDeselect);
                         UnityAction<BaseEventData> callClick = new UnityAction<BaseEventData>(OnCharClick);
-                        gameMenu.AddEventToButton(newMenu, callSelect, EventTriggerType.Select);
-                        gameMenu.AddEventToButton(newMenu, callDeselect, EventTriggerType.Deselect);
-                        gameMenu.AddEventToButton(newMenu, callClick, EventTriggerType.Submit);
+
+                        Global.gameMenu.AddEventToButton(newMenu, callSelect, EventTriggerType.Select);
+                        Global.gameMenu.AddEventToButton(newMenu, callDeselect, EventTriggerType.Deselect);
+                        Global.gameMenu.AddEventToButton(newMenu, callClick, EventTriggerType.Submit);
                     }
                     else
                     { // Else, just update the infos.
@@ -148,19 +148,25 @@ public class MenuBottom : MonoBehaviour
     {
         GameObject gameObject = baseEvent.selectedObject;
         Character character = gameObject.GetComponent<MenuCharaInfo>().character;
-        Debug.Log("Used " + gameMenu.selectedItem.Name);
+        character = Global.characterList.Find(x => x.Name == character.Name);
+        Debug.Log("Used " + Global.gameMenu.selectedItem.Name);
 
-        character.AddHP(gameMenu.selectedItem.Effect);
-        gameMenu.character.RemoveItem(gameMenu.selectedItem.Name);
+        character.AddHP(Global.gameMenu.selectedItem.Effect);
+        Debug.Log(character.Hp);
+        Global.mainChar.RemoveItem(Global.gameMenu.selectedItem.Name);
 
         //SaveCharacters();
+        Character newChar = character;
+        characterList.Remove(character);
+        characterList.Add(newChar);
+        Debug.Log(string.Join(", ", Global.mainChar.Inventory));
 
         UpdateMenu();
-        gameMenu.Refresh();
-        gameMenu.PageItems();
+        Global.gameMenu.Refresh();
+        Global.gameMenu.PageItems();
 
-        gameMenu.OnSelectItemsAction();
-        gameMenu.level--;
+        Global.gameMenu.OnSelectItemsAction();
+        Global.gameMenu.level--;
 
         ToggleButtons(false);
     }

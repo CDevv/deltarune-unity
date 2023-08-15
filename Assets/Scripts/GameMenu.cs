@@ -35,15 +35,12 @@ public class GameMenu : MonoBehaviour
         
     }
 
-    public void Setup(MenuTop topObj, MenuBottom bottomObj)
+    public void Setup()
     {
-        this.menuTop = topObj;
-        this.menuBottom = bottomObj;
-
-        this.pages["Items"] = ui.transform.Find("page-Items").gameObject;
-        this.pages["Equipment"] = ui.transform.Find("page-Equipment").gameObject;
-        this.pages["Stats"] = ui.transform.Find("page-Stats").gameObject;
-        this.pages["Settings"] = ui.transform.Find("page-Settings").gameObject;
+        this.pages["Items"] = transform.Find("page-Items").gameObject;
+        this.pages["Equipment"] = transform.Find("page-Equipment").gameObject;
+        this.pages["Stats"] = transform.Find("page-Stats").gameObject;
+        this.pages["Settings"] = transform.Find("page-Settings").gameObject;
 
         GameObject top = this.pages["Items"].transform.Find("TopOptions").gameObject;
         GameObject itemsContainer = this.pages["Items"].transform.Find("ItemsContainer").gameObject;
@@ -72,7 +69,7 @@ public class GameMenu : MonoBehaviour
         }
 
         string json = Resources.Load<TextAsset>("Json/chara").text;
-        this.character = JsonConvert.DeserializeObject<List<Character>>(json).Find(x => x.Name == "Kris");
+        //this.character = JsonConvert.DeserializeObject<List<Character>>(json).Find(x => x.Name == "Kris");
     }
 
     public void ButtonHover(GameObject button)
@@ -125,9 +122,9 @@ public class GameMenu : MonoBehaviour
     {
         GameObject itemsContainer = pageObj.transform.Find("ItemsContainer").gameObject;
         Debug.Log(string.Join(", ", character.Inventory));
-        for (int i = 0; i < character.Inventory.Length; i++)
+        for (int i = 0; i < Global.mainChar.Inventory.Length; i++)
         {
-            string itemName = character.Inventory[i];
+            string itemName = Global.mainChar.Inventory[i];
             GameObject newBtn = Instantiate(optionPrefab, itemsContainer.transform);
             newBtn.GetComponentInChildren<Text>().text = itemName;
             RectTransform rect = newBtn.GetComponent<RectTransform>();
@@ -164,7 +161,7 @@ public class GameMenu : MonoBehaviour
         Button firstButton = top.GetComponentInChildren<Button>();
         firstButton.Select();
 
-        menuTop.HideItemDesc();
+        Global.menuTop.HideItemDesc();
     }
 
     public void ItemHover(BaseEventData baseEvent)
@@ -173,19 +170,18 @@ public class GameMenu : MonoBehaviour
 
         GameObject button = baseEvent.selectedObject;
         string itemID = button.GetComponentInChildren<Text>().text;
-        string itemJSON = Resources.Load<TextAsset>("Json/items").text;
-        Item item = JsonConvert.DeserializeObject<List<Item>>(itemJSON).Find(x => x.Name == itemID);
+        Item item = Global.items.Find(x => x.Name == itemID);
 
-        menuTop.SetItemDesc(item.Description);
-        menuTop.ShowItemDesc();
+        Global.menuTop.SetItemDesc(item.Description);
+        Global.menuTop.ShowItemDesc();
 
         selectedItem = item;
     }
 
     public void ItemClick(BaseEventData baseEvent)
     {
-        menuBottom.ToggleButtons(true);
-        GameObject firstButton = menuBottom.GetFirst();
+        Global.menuBottom.ToggleButtons(true);
+        GameObject firstButton = Global.menuBottom.GetFirst();
         firstButton.GetComponent<Button>().Select();
     }
 }

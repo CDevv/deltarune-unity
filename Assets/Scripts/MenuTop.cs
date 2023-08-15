@@ -21,15 +21,10 @@ public class MenuTop : MonoBehaviour
     public Image description;
     List<Sprite> menuDesc = new List<Sprite>();
 
-    GameMenu menuManager;
-    MenuBottom menuBottomScript;
 
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
-
-        menuManager = menuUI.GetComponent<GameMenu>();
-        menuBottomScript = menuBottom.GetComponent<MenuBottom>();
 
         for (int i = 0; i < 5; i++)
         {
@@ -38,14 +33,12 @@ public class MenuTop : MonoBehaviour
             else
                 menuDesc.Add(Resources.Load<Sprite>("Sprites/Ui/darkmenudesc" + i.ToString()));
         }
-
-        menuManager.Setup(transform.gameObject.GetComponent<MenuTop>(), menuBottomScript);
     }
     void Update()
     {
         if (Input.GetButtonDown("Menu") && enableMenu == true)
         {
-            if (menuManager.level == 0)
+            if (Global.gameMenu.level == 0)
             {
                 isOpen = !isOpen;
 
@@ -65,7 +58,7 @@ public class MenuTop : MonoBehaviour
                     firstButton.OnSelect(null);
                 }
 
-                menuBottomScript.UpdateMenu();
+                Global.menuBottom.UpdateMenu();
             }
 
 
@@ -73,28 +66,28 @@ public class MenuTop : MonoBehaviour
 
         if (Input.GetButtonDown("ReturnMenu"))
         {
-            if (menuManager.level == 1)
+            if (Global.gameMenu.level == 1)
             {
-                menuManager.level -= 1;
+                Global.gameMenu.level -= 1;
                 menuUI.SetActive(false);
 
                 foreach (Button button in buttons)
                 {
                     button.interactable = true;
-                    if (button.gameObject.name == menuManager.currentPage)
+                    if (button.gameObject.name == Global.gameMenu.currentPage)
                     {
                         button.Select();
                     }
                 }
             }
-            else if (menuManager.level == 2)
+            else if (Global.gameMenu.level == 2)
             {
-                switch (menuManager.currentPage)
+                switch (Global.gameMenu.currentPage)
                 {
                     default:
                         break;
                     case "Items":
-                        menuManager.ItemsReturnTop();
+                        Global.gameMenu.ItemsReturnTop();
                         break;
                 }
             }
@@ -144,9 +137,9 @@ public class MenuTop : MonoBehaviour
     private void MenuPage(string name)
     {
         menuUI.SetActive(true);
-        menuManager.Refresh();
-        menuManager.ChangePage(name);
-        menuManager.level = 1;
+        Global.gameMenu.Refresh();
+        Global.gameMenu.ChangePage(name);
+        Global.gameMenu.level = 1;
 
         foreach (Button button in buttons)
         {

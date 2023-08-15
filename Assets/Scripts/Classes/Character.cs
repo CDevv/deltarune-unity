@@ -43,7 +43,7 @@ public class Character
         }
         else
         {
-            Hp += Mathf.Abs((Hp + value) - Maxhp);
+            Hp += value - (Mathf.Abs((Hp + value) - Maxhp));
         }
     }
 
@@ -58,7 +58,7 @@ public class Character
             }
         }
         List<string> list = Inventory.ToList();
-        list.Sort();
+        list = list.OrderBy(x => x == "").ToList();
         Inventory = list.ToArray();
     }
 }
