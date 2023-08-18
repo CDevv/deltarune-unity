@@ -4,21 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class GameMenu : MonoBehaviour
 {
     public GameObject ui;
     public GameObject optionPrefab;
+    public GameObject charPrefab;
     public Dictionary<string, GameObject> pages = new();
-
+    public GameObject heart;
+    [HideInInspector]
     public string currentPage = "Items";
     public int level = 0;
-    public GameObject heart;
+    [HideInInspector]
     public GameObject pageObj;
-
     public Character character;
-    private MenuTop menuTop;
-    private MenuBottom menuBottom;
 
     public Item selectedItem;
 
@@ -109,17 +109,30 @@ public class GameMenu : MonoBehaviour
         newPage.SetActive(true);
 
         this.pageObj = newPage;
+
+        //Set up page
+        switch (name)
+        {
+            default:
+                break;
+            case "Items":
+                PageItems();
+                break;
+            case "Equipment":
+                EquipmentPage();
+                break;
+        }
+
+        //Select first button
         heart.SetActive(true);
         Button firstButton = pageObj.GetComponentInChildren<Button>();
-        firstButton.Select();
-        PageItems();
-     
+        firstButton.Select();      
     }
     //Items Page
     public void PageItems()
     {
         GameObject itemsContainer = pageObj.transform.Find("ItemsContainer").gameObject;
-        Debug.Log(string.Join(", ", character.Inventory));
+        //Debug.Log(string.Join(", ", character.Inventory));
         for (int i = 0; i < Global.mainChar.Inventory.Length; i++)
         {
             string itemName = Global.mainChar.Inventory[i];
@@ -128,8 +141,8 @@ public class GameMenu : MonoBehaviour
             RectTransform rect = newBtn.GetComponent<RectTransform>();
             Button button = newBtn.GetComponent<Button>();
             
-            UnityEngine.Events.UnityAction<BaseEventData> callSelect = new UnityEngine.Events.UnityAction<BaseEventData>(ItemHover);
-            UnityEngine.Events.UnityAction<BaseEventData> callClick = new UnityEngine.Events.UnityAction<BaseEventData>(ItemClick);
+            UnityAction<BaseEventData> callSelect = new UnityAction<BaseEventData>(ItemHover);
+            UnityAction<BaseEventData> callClick = new UnityAction<BaseEventData>(ItemClick);
             AddEventToButton(newBtn, callSelect, EventTriggerType.Select);
             AddEventToButton(newBtn, callClick, EventTriggerType.Submit);
             //rect.localPosition = new Vector3(36 + rect.rect.width, 10 + i * 5);
@@ -182,5 +195,49 @@ public class GameMenu : MonoBehaviour
         Global.menuBottom.ToggleButtons(true);
         GameObject firstButton = Global.menuBottom.GetFirst();
         firstButton.GetComponent<Button>().Select();
+    }
+
+    //Equipment page
+    public void EquipmentPage()
+    {
+        GameObject divChars = pageObj.transform.Find("div-Char").gameObject;
+
+        GameObject charsContainer = divChars.transform.Find("CharsContainer").gameObject;
+        //Clear
+        Button[] components = charsContainer.GetComponentsInChildren<Button>();
+        foreach (Button item in components)
+        {
+            Destroy(item.gameObject);
+        }
+        //Populate
+        for (int i = 0; i < Global.characterList.Count; i++)
+        {
+            Character character = Global.characterList[i];
+            Sprite sprite = Resources.Load<Sprite>("Sprites/Ui/equipchar" + (i + 1).ToString());
+            GameObject newBtn = Instantiate(charPrefab, charsContainer.transform);
+            newBtn.name = character.Name;
+            newBtn.GetComponentInChildren<Image>().sprite = sprite;
+
+            UnityAction<BaseEventData> callSelect = new UnityAction<BaseEventData>(EquipCharSelect);
+            AddEventToButton(newBtn, callSelect, EventTriggerType.Select);
+        }
+    }
+
+    public void EquipCharSelect(BaseEventData baseEvent)
+    {
+        GameObject divChars = pageObj.transform.Find("div-Char").gameObject;
+        GameObject button = baseEvent.selectedObject;
+        Text text = divChars.GetComponentInChildren<Text>();
+        RectTransform rect = heart.GetComponent<RectTransform>();
+        RectTransform optionRect = button.GetComponent<RectTransform>();
+        Vector3 vector = new Vector3(optionRect.position.x, optionRect.position.y + 30);
+        rect.transform.position = vector;
+
+        Animator animator = heart.GetComponent<Animator>();
+        animator.SetBool("Selecting", true);
+
+        rect.sizeDelta = new Vector2(32, 16);
+
+        text.text = button.name;
     }
 }

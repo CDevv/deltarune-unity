@@ -79,6 +79,11 @@ public class MenuTop : MonoBehaviour
                         button.Select();
                     }
                 }
+
+                RectTransform heartRect = Global.gameMenu.heart.GetComponent<RectTransform>();
+                Animator heartAnim = Global.gameMenu.heart.GetComponent<Animator>();
+                heartRect.sizeDelta = new Vector2(16, 16);
+                heartAnim.SetBool("Selecting", false);
             }
             else if (Global.gameMenu.level == 2)
             {
