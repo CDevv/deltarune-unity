@@ -42,15 +42,8 @@ public class GameMenu : MonoBehaviour
         this.pages["Stats"] = transform.Find("page-Stats").gameObject;
         this.pages["Settings"] = transform.Find("page-Settings").gameObject;
 
-        GameObject top = this.pages["Items"].transform.Find("TopOptions").gameObject;
-        GameObject itemsContainer = this.pages["Items"].transform.Find("ItemsContainer").gameObject;
-        top.GetComponent<CanvasGroup>().interactable = true;
-        itemsContainer.GetComponent<CanvasGroup>().interactable = false;
-
-        foreach (Transform item in itemsContainer.transform)
-        {
-            Destroy(item);
-        }
+        PageItems();
+        EquipmentPage();
 
         string json = Resources.Load<TextAsset>("Json/chara").text;
         this.character = JsonConvert.DeserializeObject<List<Character>>(json).Find(x => x.Name == "Kris");
@@ -58,25 +51,23 @@ public class GameMenu : MonoBehaviour
 
     public void Refresh()
     {
-        GameObject top = this.pages["Items"].transform.Find("TopOptions").gameObject;
-        GameObject itemsContainer = this.pages["Items"].transform.Find("ItemsContainer").gameObject;
-        top.GetComponent<CanvasGroup>().interactable = true;
-        itemsContainer.GetComponent<CanvasGroup>().interactable = false;
-
-        foreach (Transform item in itemsContainer.transform)
-        {
-            Destroy(item.gameObject);
-        }
-        //this.character = JsonConvert.DeserializeObject<List<Character>>(json).Find(x => x.Name == "Kris");
+        PageItems();
+        EquipmentPage();
     }
 
-    public void ButtonHover(GameObject button)
+    public void ToggleHeartAnim(bool value)
     {
-        //Debug.Log("Selected button");
         RectTransform rect = heart.GetComponent<RectTransform>();
-        RectTransform optionRect = button.GetComponent<RectTransform>();
-        Vector2 vector2 = new Vector2(optionRect.position.x - (optionRect.rect.width / 2) - 10, optionRect.position.y);
-        rect.position = vector2;
+        Animator animator = heart.GetComponent<Animator>();
+        animator.SetBool("Selecting", value);
+        if (value)
+        {
+            rect.sizeDelta = new Vector2(32, 16);
+        }
+        else
+        {
+            rect.sizeDelta = new Vector2(16, 16);
+        }
     }
 
     public void BaseButtonHover(BaseEventData baseEvent)
@@ -88,7 +79,7 @@ public class GameMenu : MonoBehaviour
         rect.position = vector2;
     }
 
-    public void AddEventToButton(GameObject gameObject, UnityEngine.Events.UnityAction<BaseEventData> call, EventTriggerType type)
+    public void AddEventToButton(GameObject gameObject, UnityAction<BaseEventData> call, EventTriggerType type)
     {
         EventTrigger eventTrigger = gameObject.GetComponent<EventTrigger>();
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -110,29 +101,38 @@ public class GameMenu : MonoBehaviour
 
         this.pageObj = newPage;
 
-        //Set up page
+        //Set up page and select first button
+        heart.SetActive(true);
         switch (name)
         {
             default:
                 break;
             case "Items":
-                PageItems();
+                ToggleHeartAnim(false);
+                Button firstButton = newPage.GetComponentInChildren<Button>();
+                firstButton.Select();
                 break;
             case "Equipment":
-                EquipmentPage();
+                ToggleHeartAnim(true);
+                GameObject gameObject = pageObj.transform.Find("div-Char").gameObject.transform.Find("CharsContainer").gameObject;
+                GameObject button = gameObject.transform.Find("Kris").gameObject;
+                button.GetComponent<EventTrigger>().OnSelect(new BaseEventData(EventSystem.current));
+                //EquipCharSelect(button);
                 break;
-        }
-
-        //Select first button
-        heart.SetActive(true);
-        Button firstButton = pageObj.GetComponentInChildren<Button>();
-        firstButton.Select();      
+        }             
     }
     //Items Page
     public void PageItems()
     {
-        GameObject itemsContainer = pageObj.transform.Find("ItemsContainer").gameObject;
+        GameObject pg = pages["Items"];
+        GameObject itemsContainer = pg.transform.Find("ItemsContainer").gameObject;
         //Debug.Log(string.Join(", ", character.Inventory));
+        //Clear
+        foreach (Transform item in itemsContainer.transform)
+        {
+            Destroy(item.gameObject);
+        }
+        //Populate
         for (int i = 0; i < Global.mainChar.Inventory.Length; i++)
         {
             string itemName = Global.mainChar.Inventory[i];
@@ -200,8 +200,8 @@ public class GameMenu : MonoBehaviour
     //Equipment page
     public void EquipmentPage()
     {
-        GameObject divChars = pageObj.transform.Find("div-Char").gameObject;
-
+        GameObject pg = pages["Equipment"];
+        GameObject divChars = pg.transform.Find("div-Char").gameObject;
         GameObject charsContainer = divChars.transform.Find("CharsContainer").gameObject;
         //Clear
         Button[] components = charsContainer.GetComponentsInChildren<Button>();
@@ -227,17 +227,89 @@ public class GameMenu : MonoBehaviour
     {
         GameObject divChars = pageObj.transform.Find("div-Char").gameObject;
         GameObject button = baseEvent.selectedObject;
+        button.GetComponent<Button>().Select();
         Text text = divChars.GetComponentInChildren<Text>();
         RectTransform rect = heart.GetComponent<RectTransform>();
         RectTransform optionRect = button.GetComponent<RectTransform>();
         Vector3 vector = new Vector3(optionRect.position.x, optionRect.position.y + 30);
         rect.transform.position = vector;
 
-        Animator animator = heart.GetComponent<Animator>();
-        animator.SetBool("Selecting", true);
+        //Animator animator = heart.GetComponent<Animator>();
+        //animator.SetBool("Selecting", true);
 
-        rect.sizeDelta = new Vector2(32, 16);
+        //rect.sizeDelta = new Vector2(32, 16);
 
         text.text = button.name;
+
+        EquipCharRefresh(button.name);
+    }
+
+    public void EquipCharSelect(GameObject gameObject)
+    {
+        GameObject divChars = pageObj.transform.Find("div-Char").gameObject;
+        GameObject button = gameObject;
+        Text text = divChars.GetComponentInChildren<Text>();
+        RectTransform rect = heart.GetComponent<RectTransform>();
+        RectTransform optionRect = button.GetComponent<RectTransform>();
+        Vector3 vector = new Vector3(optionRect.position.x, optionRect.position.y + 30);
+        rect.transform.position = vector;
+
+        text.text = button.name;
+
+        EquipCharRefresh(button.name);
+    }
+
+    public void EquipCharRefresh(string name)
+    {
+        Character character = Global.characterList.Find(x => x.Name == name);
+
+        GameObject divStats = pageObj.transform.Find("div-Stats").gameObject;
+        GameObject divEquip = pageObj.transform.Find("div-Equipped").gameObject;
+
+        Text textAtk = divStats.transform.Find("AttackStat").gameObject.GetComponentInChildren<Text>();
+        Text textDef = divStats.transform.Find("DefenceStat").gameObject.GetComponentInChildren<Text>();
+        Text textMagic = divStats.transform.Find("MagicStat").gameObject.GetComponentInChildren<Text>();
+
+        GameObject textWeapon = divEquip.transform.Find("weapon").gameObject;
+        GameObject textArmor1 = divEquip.transform.Find("armor1").gameObject;
+        GameObject textArmor2 = divEquip.transform.Find("armor2").gameObject;
+
+        textAtk.text = $"Attack: {character.Stats.Attack}";
+        textDef.text = $"Defence: {character.Stats.Defense}";
+        textMagic.text = $"Magic: {character.Stats.Magic}";
+
+        EquippedItemUpdate(textWeapon, character.Equipment.Weapon);
+        EquippedItemUpdate(textArmor1, character.Equipment.Armor1);
+        EquippedItemUpdate(textArmor2, character.Equipment.Armor2);
+    }
+
+    public void EquippedItemUpdate(GameObject gameObject, string itemName)
+    {
+        Text text = gameObject.GetComponentInChildren<Text>();
+        Button button = gameObject.GetComponent<Button>();
+        Image itemIcon = gameObject.transform.Find("Image").GetComponent<Image>();
+
+        Color disabledColor = new Color((float)0.7843137, (float)0.7843137, (float)0.7843137);
+
+        if (itemName == "")
+        {
+            ColorBlock colorBlock = button.colors;
+            colorBlock.normalColor = disabledColor;
+            colorBlock.disabledColor = disabledColor;
+            button.colors = colorBlock;
+            text.text = "(Nothing.)";
+
+            itemIcon.gameObject.SetActive(false);
+        }
+        else
+        {
+            ColorBlock colorBlock = button.colors;
+            colorBlock.normalColor = Color.white;
+            colorBlock.disabledColor = Color.white;
+            button.colors = colorBlock;
+            text.text = itemName;
+
+            itemIcon.gameObject.SetActive(true);
+        }
     }
 }

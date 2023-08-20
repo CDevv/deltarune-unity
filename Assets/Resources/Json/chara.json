@@ -11,6 +11,7 @@
             "armor2": ""
         },
         "inventory": ["cocaine", "weed", "", "", "", "", "", ""],
+		"armorinventory": ["", "", "", "", "", "", "", ""],
         "stats": {
             "attack": 10,
             "defense": 2,
@@ -29,6 +30,7 @@
             "armor2": ""
         },
         "inventory": ["", "", "", "", "", "", "", ""],
+		"armorinventory": ["", "", "", "", "", "", "", ""],
         "stats": {
             "attack": 0,
             "defense": 0,
@@ -47,6 +49,7 @@
             "armor2": ""
         },
         "inventory": ["", "", "", "", "", "", "", ""],
+		"armorinventory": ["", "", "", "", "", "", "", ""],
         "stats": {
             "attack": 0,
             "defense": 0,

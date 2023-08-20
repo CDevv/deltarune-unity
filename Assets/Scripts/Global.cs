@@ -19,18 +19,18 @@ public class Global : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        menuTop = objTop.GetComponent<MenuTop>();
-        menuBottom = objBottom.GetComponent<MenuBottom>();
-        gameMenu = objMenu.GetComponent<GameMenu>();
-
-        gameMenu.Setup();
-
         string json = Resources.Load<TextAsset>("Json/chara").text;
         characterList = JsonConvert.DeserializeObject<List<Character>>(json);
         mainChar = characterList.Find(x => x.Name == "Kris");
 
         string itemsString = Resources.Load<TextAsset>("Json/items").text;
         items = JsonConvert.DeserializeObject<List<Item>>(itemsString);
+
+        menuTop = objTop.GetComponent<MenuTop>();
+        menuBottom = objBottom.GetComponent<MenuBottom>();
+        gameMenu = objMenu.GetComponent<GameMenu>();
+
+        gameMenu.Setup();
     }
 
     // Update is called once per frame
