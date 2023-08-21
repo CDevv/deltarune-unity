@@ -20,6 +20,7 @@ public class MenuTop : MonoBehaviour
     public bool langIsJapanese;
     public Image description;
     List<Sprite> menuDesc = new List<Sprite>();
+    public GameObject itemDesc;
 
 
     void Start()
@@ -40,6 +41,8 @@ public class MenuTop : MonoBehaviour
         {
             if (Global.gameMenu.level == 0)
             {
+                Global.gameMenu.ToggleHeartAnim(false);
+
                 isOpen = !isOpen;
 
                 anim.SetBool("IsOpen", isOpen);
@@ -89,7 +92,7 @@ public class MenuTop : MonoBehaviour
                     default:
                         break;
                     case "Items":
-                        Global.gameMenu.ItemsReturnTop();
+                        Global.gameMenu.itemsPage.Level1();
                         break;
                 }
             }
@@ -155,8 +158,7 @@ public class MenuTop : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
-        GameObject container = transform.Find("ItemDescContainer").gameObject;
-        container.SetActive(true);
+        itemDesc.SetActive(true);
     }
 
     public void HideItemDesc()
@@ -165,13 +167,11 @@ public class MenuTop : MonoBehaviour
         {
             item.gameObject.SetActive(true);
         }
-        GameObject container = transform.Find("ItemDescContainer").gameObject;
-        container.SetActive(false);
+        itemDesc.SetActive(false);
     }
 
     public void SetItemDesc(string desc)
     {
-        GameObject container = transform.Find("ItemDescContainer").gameObject;
-        container.GetComponentInChildren<Text>().text = desc;
+        itemDesc.GetComponentInChildren<Text>().text = desc;
     }
 }

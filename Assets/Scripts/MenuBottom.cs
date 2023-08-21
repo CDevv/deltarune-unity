@@ -156,10 +156,10 @@ public class MenuBottom : MonoBehaviour
         GameObject gameObject = baseEvent.selectedObject;
         Character character = gameObject.GetComponent<MenuCharaInfo>().character;
         character = Global.characterList.Find(x => x.Name == character.Name);
-        Debug.Log("Used " + Global.gameMenu.selectedItem.Name);
+        Debug.Log("Used " + Global.gameMenu.itemsPage.selectedItem.Name);
 
-        character.AddHP(Global.gameMenu.selectedItem.Effect);
-        Global.mainChar.RemoveItem(Global.gameMenu.selectedItem.Name);
+        character.AddHP(Global.gameMenu.itemsPage.selectedItem.Effect);
+        Global.mainChar.RemoveItem(Global.gameMenu.itemsPage.selectedItem.Name);
 
         //SaveCharacters();
         Character newChar = character;
@@ -167,13 +167,12 @@ public class MenuBottom : MonoBehaviour
         Global.characterList.Add(newChar);
 
         UpdateMenu();
-        Global.gameMenu.Refresh();
-        Global.gameMenu.PageItems();
+        Global.gameMenu.itemsPage.Refresh();
 
         ToggleButtons(false);
 
         Global.gameMenu.heart.SetActive(true);
-        Global.gameMenu.ItemsReturnTop();
+        Global.gameMenu.itemsPage.Level1();
     }
 
     public void SaveCharacters()

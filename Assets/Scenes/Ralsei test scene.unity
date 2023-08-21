@@ -1877,6 +1877,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &846836425 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2630180797054130653, guid: e5d8705fbfff21640a7283281f94ca3b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2142207757}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d301f126c637cfc4ca6f9a175e5143ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &871482573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3259,6 +3271,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1745985722}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1765127005 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8680734102760626186, guid: e5d8705fbfff21640a7283281f94ca3b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2142207757}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58876db56e806974a9a471d1ce945c61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1799169276 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3279650414315066871, guid: 6e5ac244566569d4bb3be7d18ff3e0d1,
@@ -3705,6 +3729,7 @@ MonoBehaviour:
   menuBottom: {fileID: 587700207}
   langIsJapanese: 0
   description: {fileID: 574899766}
+  itemDesc: {fileID: 1876423011}
 --- !u!1 &1970200557
 GameObject:
   m_ObjectHideFlags: 0
@@ -4287,9 +4312,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5235832313822387475, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
+      propertyPath: itemsPage
+      value: 
+      objectReference: {fileID: 1765127005}
+    - target: {fileID: 5235832313822387475, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5235832313822387475, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: equipmentPage
+      value: 
+      objectReference: {fileID: 846836425}
     - target: {fileID: 5680037061108590026, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
