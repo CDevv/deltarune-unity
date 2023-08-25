@@ -94,6 +94,21 @@ public class MenuTop : MonoBehaviour
                     case "Items":
                         Global.gameMenu.itemsPage.Level1();
                         break;
+                    case "Equipment":
+                        Global.gameMenu.ToggleHeartAnim(true);
+                        Global.gameMenu.equipmentPage.Level1();
+                        break;
+                }
+            }
+            else if (Global.gameMenu.level == 3)
+            {
+                switch (Global.gameMenu.currentPage)
+                {
+                    default:
+                        break;
+                    case "Equipment":
+                        Global.gameMenu.equipmentPage.Level2();
+                        break;
                 }
             }
         }

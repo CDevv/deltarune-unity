@@ -15,7 +15,8 @@ public class Character
     [JsonProperty("maxhp")]       public int Maxhp;
     [JsonProperty("equipment")]   public PlayerEquipment Equipment;
     [JsonProperty("inventory")]   public string[] Inventory;
-    [JsonProperty("armorinventory")] public string[] ArmorInventory;
+    [JsonProperty("weaponinv")]   public string[] WeaponInventory;
+    [JsonProperty("armorinv")]    public string[] ArmorInventory;
     [JsonProperty("stats")]       public PlayerStats Stats;
 
     /*

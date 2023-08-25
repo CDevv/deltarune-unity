@@ -4135,6 +4135,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1608513549}
     m_Modifications:
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 846836425}
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ArmorSlotClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EquipmentPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 229621735895922896, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1219354232617241445, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -4163,6 +4203,46 @@ PrefabInstance:
     - target: {fileID: 1219354232617241445, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 846836425}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ArmorSlotClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EquipmentPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1463799658541076502, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1755580908692692939, guid: e5d8705fbfff21640a7283281f94ca3b,
@@ -4205,10 +4285,95 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 846836425}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ArmorSlotClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EquipmentPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2117672161327557550, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 846836425}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ArmorSlotClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EquipmentPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2227387022091674469, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2578369008723517376, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2961816659957618088, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Name
+      value: Kris
       objectReference: {fileID: 0}
     - target: {fileID: 3034557180595689155, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
@@ -4310,6 +4475,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5180724857633633360, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 846836425}
+    - target: {fileID: 5180724857633633360, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HeartPos
+      objectReference: {fileID: 0}
+    - target: {fileID: 5180724857633633360, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EquipmentPage, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5235832313822387475, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}
       propertyPath: itemsPage
@@ -4389,6 +4569,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Alpha
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 846836425}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ArmorSlotClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EquipmentPage, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558461489118576858, guid: e5d8705fbfff21640a7283281f94ca3b,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8382160723138347875, guid: e5d8705fbfff21640a7283281f94ca3b,
         type: 3}

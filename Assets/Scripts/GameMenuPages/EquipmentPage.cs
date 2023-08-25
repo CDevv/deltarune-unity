@@ -16,9 +16,15 @@ public class EquipmentPage : MonoBehaviour
     Text charName;
     HorizontalLayoutGroup charsContainer;
     Dictionary<string, Text> statsText = new Dictionary<string, Text>();
-    Dictionary<string, Text> equipped = new Dictionary<string, Text>();
+    Dictionary<string, EquipSlotOption> equipped = new Dictionary<string, EquipSlotOption>();
+    ScrollableContext scrollable;
 
     GameObject charIcon;
+    int childrenCount = 0;
+    float[] charIconPos = { -140.75f, -170.75f, -200.75f };
+
+    Character selectedChar;
+    string selectedEquipSlot;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +51,15 @@ public class EquipmentPage : MonoBehaviour
         Dictionary<string, Text> statsDict = divStats.transform.GetComponentsInChildren<Text>().ToDictionary(x => x.transform.parent.gameObject.name);
         statsText = statsDict;
 
-        equipped = divEquipment.transform.GetComponentsInChildren<Text>().ToDictionary(x => x.transform.parent.gameObject.name);
+        equipped = divEquipment.transform.GetComponentsInChildren<EquipSlotOption>().ToDictionary(x => x.gameObject.name);
+
+        foreach (var item in equipped)
+        {
+            item.Value.SetupElement();
+        }
+
+        scrollable = divArmors.GetComponentInChildren<ScrollableContext>();
+        scrollable.SetupElement();
 
         Refresh();
     }
@@ -68,37 +82,54 @@ public class EquipmentPage : MonoBehaviour
             newBtn.GetComponentInChildren<Image>().sprite = sprite;
 
             UnityAction<BaseEventData> callSelect = new UnityAction<BaseEventData>(EquipCharSelect);
+            UnityAction<BaseEventData> callSubmit = new UnityAction<BaseEventData>(EquipCharClick);
             Global.gameMenu.AddEventToButton(newBtn, callSelect, EventTriggerType.Select);
+            Global.gameMenu.AddEventToButton(newBtn, callSubmit, EventTriggerType.Submit);
 
             buttons.Add(newBtn);
         }
+
+        childrenCount = buttons.Count;
         charIcon = buttons[0];
-        
-
-        //Invoke("GetButton", 0.02f);
     }
-
-
 
     //Level
     public void OnPageOpen()
     {
-        //Canvas.ForceUpdateCanvases();
-        
-        //StartCoroutine(GetButton());
-        Global.gameMenu.ToggleHeartAnim(true);
+        Global.gameMenu.ToggleHeartAnim(true);  
         Level1();
+        HeartPos();
     }
 
     public void Level1()
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(charsContainer.GetComponent<RectTransform>());
-        divChars.interactable = true;
+        Global.gameMenu.level = 1;
 
-        //Button firstButton = charsContainer.GetComponentInChildren<Button>();
-        //firstButton.Select();
+        divChars.interactable = true;
+        divEquipment.interactable = false;
         charIcon.GetComponentInChildren<Button>().Select();
-        //EquipCharSelect(charIcon);
+    }
+
+    public void Level2()
+    {
+        Global.gameMenu.level = 2;
+
+        divChars.interactable = false;
+        divEquipment.interactable = true;
+        divArmors.interactable = false;
+        Button firstButton = divEquipment.GetComponentInChildren<Button>();
+        firstButton.Select();
+    }
+
+    public void Level3()
+    {
+        Global.gameMenu.level = 3;
+
+        divEquipment.interactable = false;
+        divArmors.interactable = true;
+
+        IconTextOption button = scrollable.GetFirst();
+        button.SelectBtn();
     }
 
     //Button events
@@ -107,72 +138,122 @@ public class EquipmentPage : MonoBehaviour
         GameObject button = baseEvent.selectedObject;
         RectTransform rect = Global.gameMenu.heart.GetComponent<RectTransform>();
         RectTransform optionRect = button.GetComponent<RectTransform>();
+
         Vector3 vector = new Vector3(optionRect.position.x, optionRect.position.y + 30);
         rect.transform.position = vector;
 
         EquipCharRefresh(button.name);
     }
 
-    public void EquipCharSelect(GameObject gameObject)
+    public void EquipCharClick(BaseEventData baseEvent)
     {
-        GameObject button = gameObject;
-        RectTransform rect = Global.gameMenu.heart.GetComponent<RectTransform>();
-        RectTransform optionRect = button.GetComponent<RectTransform>();
-        Vector3 vector = new Vector3(optionRect.position.x, optionRect.position.y + 30);
-        rect.transform.position = vector;
-
-        EquipCharRefresh(button.name);
+        Global.gameMenu.ToggleHeartAnim(false);
+        Level2();
     }
 
     public void EquipCharRefresh(string name)
     {
         Character character = Global.characterList.Find(x => x.Name == name);
 
+        charName.text = name;
+
         statsText["AttackStat"].text = $"Attack: {character.Stats.Attack}";
         statsText["DefenceStat"].text = $"Defence: {character.Stats.Defense}";
         statsText["MagicStat"].text = $"Magic: {character.Stats.Magic}";
 
-        EquippedItemUpdate(equipped["weapon"].gameObject, character.Equipment.Weapon);
-        EquippedItemUpdate(equipped["armor1"].gameObject, character.Equipment.Armor1);
-        EquippedItemUpdate(equipped["armor2"].gameObject, character.Equipment.Armor2);
+        equipped["weapon"].UpdateElement(character.Equipment.Weapon);
+        equipped["armor1"].UpdateElement(character.Equipment.Armor1);
+        equipped["armor2"].UpdateElement(character.Equipment.Armor2);
 
-        charName.text = name;
+        scrollable.Refresh(8, character.WeaponInventory.ToList());
+
+        selectedChar = character;
     }
 
-    public void EquippedItemUpdate(GameObject gameObject, string name)
+    public void EquipSlotSelect(BaseEventData baseEvent)
     {
-        Button button = gameObject.GetComponent<Button>();
-        Text text = gameObject.GetComponentInChildren<Text>();
-        Image icon = gameObject.GetComponentInChildren<Image>();
+        GameObject gameObject = baseEvent.selectedObject;
+        EquipSlotOption option = gameObject.GetComponent<EquipSlotOption>();
+        RectTransform iconRect = option.imgSecondary.gameObject.GetComponent<RectTransform>();
+        RectTransform heartRect = Global.gameMenu.heart.GetComponent<RectTransform>();
+        heartRect.position = iconRect.position;
+        option.imgSecondary.gameObject.SetActive(false);
 
-        Color disabledColor = new Color(0.7843137f, 0.7843137f, 0.7843137f);
-
-        if (name == "")
+        if (gameObject.name == "weapon")
         {
-            text.text = "(Nothing.)";
-            ColorBlock colorBlock = button.colors;
-            colorBlock.normalColor = disabledColor;
-            colorBlock.disabledColor = disabledColor;
-            button.colors = colorBlock;
-            icon.gameObject.SetActive(false);
+            scrollable.Refresh(8, selectedChar.WeaponInventory.ToList());
         }
         else
         {
-            text.text = name;
-            ColorBlock colorBlock = button.colors;
-            colorBlock.normalColor = Color.white;
-            colorBlock.disabledColor = Color.white;
-            button.colors = colorBlock;
-            icon.gameObject.SetActive(true);
+            scrollable.Refresh(8, selectedChar.ArmorInventory.ToList());
         }
+
+        selectedEquipSlot = gameObject.name;
+    }
+
+    public void EquipSlotDeselect(BaseEventData baseEvent)
+    {
+        GameObject gameObject = baseEvent.selectedObject;
+        EquipSlotOption option = gameObject.GetComponent<EquipSlotOption>();
+        option.imgSecondary.gameObject.SetActive(true);
+    }
+
+    public void EquipSlotClick(BaseEventData baseEvent)
+    {
+        Level3();
+    }
+
+    public void ArmorSlotSelect(BaseEventData baseEvent)
+    {
+        GameObject gameObject = baseEvent.selectedObject;
+        IconTextOption option = gameObject.GetComponent<IconTextOption>();
+        RectTransform imgRect = option.img.GetComponent<RectTransform>();
+
+        RectTransform heartRect = Global.gameMenu.heart.GetComponent<RectTransform>();
+        Vector2 vector = new Vector2(imgRect.position.x + 16, imgRect.position.y);
+        heartRect.position = vector;
+        option.ToggleImageActive(false);
+    }
+
+    public void ArmorSlotDeselect(BaseEventData baseEvent)
+    {
+        GameObject gameObject = baseEvent.selectedObject;
+        IconTextOption option = gameObject.GetComponent<IconTextOption>();
+        option.ToggleImageActive(true);
+    }
+
+    public void ArmorSlotClick(BaseEventData baseEvent)
+    {
+        GameObject gameObject = baseEvent.selectedObject;
+        IconTextOption option = gameObject.GetComponent<IconTextOption>();
+        EquipSlotOption equipSlot = equipped[selectedEquipSlot];
+
+        string statName = equipSlot.gameObject.name;
+        string itemName = option.GetText();
+
+        equipSlot.UpdateElement(option.GetText());
+        switch (statName)
+        {
+            default:
+                break;
+            case "weapon":
+                selectedChar.Equipment.Weapon = itemName;
+                break;
+            case "armor1":
+                selectedChar.Equipment.Armor1 = itemName;
+                break;
+            case "armor2":
+                selectedChar.Equipment.Armor2 = itemName;
+                break;
+        }
+        Level2();
     }
 
     //Extra methods
-    private IEnumerator GetButton()
+    public void HeartPos()
     {
-        yield return null;
-        Button firstButton = charsContainer.GetComponentInChildren<Button>();
-        charIcon = firstButton.gameObject;
-        //firstButton.Select();
+        RectTransform rect = Global.gameMenu.heart.GetComponent<RectTransform>();
+        Vector3 vector = new Vector3(charIconPos[childrenCount - 1], 80);
+        rect.transform.localPosition = vector;
     }
 }
