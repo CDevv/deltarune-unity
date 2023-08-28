@@ -15,6 +15,8 @@ public class GameMenu : MonoBehaviour
     public Dictionary<string, GameObject> pages = new();
     public ItemsPage itemsPage;
     public EquipmentPage equipmentPage;
+    public StatsPage statsPage;
+    public SettingsPage settingsPage;
     [HideInInspector]
     public string currentPage = "Items";
     public int level = 0;
@@ -39,11 +41,15 @@ public class GameMenu : MonoBehaviour
 
         pages["Items"] = itemsPage.gameObject;
         pages["Equipment"] = equipmentPage.gameObject;
+        pages["Stats"] = statsPage.gameObject;
+        pages["Settings"] = settingsPage.gameObject;
         //this.pages["Stats"] = transform.Find("page-Stats").gameObject;
         //this.pages["Settings"] = transform.Find("page-Settings").gameObject;
 
         itemsPage.Setup();
         equipmentPage.Setup();
+        statsPage.Setup();
+        settingsPage.Setup();
         Refresh();
     }
 
@@ -109,7 +115,12 @@ public class GameMenu : MonoBehaviour
                 break;
             case "Equipment":
                 equipmentPage.OnPageOpen();
-                //EquipCharSelect(button);
+                break;
+            case "Stats":
+                statsPage.OnPageOpen();
+                break;
+            case "Settings":
+                settingsPage.OnPageOpen();
                 break;
         }            
     }

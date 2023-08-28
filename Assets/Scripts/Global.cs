@@ -8,6 +8,7 @@ public class Global : MonoBehaviour
     public static Character mainChar;
     public static List<Character> characterList;
     public static List<Item> items;
+    public static GameConfig config;
 
     public GameObject objTop;
     public GameObject objBottom;
@@ -19,7 +20,10 @@ public class Global : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string json = Resources.Load<TextAsset>("Json/chara").text;
+        string json = Resources.Load<TextAsset>("Json/config").text;
+        config = JsonConvert.DeserializeObject<GameConfig>(json);
+
+        json = Resources.Load<TextAsset>("Json/chara").text;
         characterList = JsonConvert.DeserializeObject<List<Character>>(json);
         mainChar = characterList.Find(x => x.Name == "Kris");
 

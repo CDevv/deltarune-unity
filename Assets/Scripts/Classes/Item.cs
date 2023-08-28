@@ -9,4 +9,6 @@ public class Item
     [JsonProperty("description")] public string Description;
     [JsonProperty("type")] public string Type;
     [JsonProperty("effects")] public int Effect;
+    [JsonProperty("attack")] public int Attack;
+    [JsonProperty("defence")] public int Defence;
 }

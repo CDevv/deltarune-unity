@@ -18,6 +18,7 @@ public class Character
     [JsonProperty("weaponinv")]   public string[] WeaponInventory;
     [JsonProperty("armorinv")]    public string[] ArmorInventory;
     [JsonProperty("stats")]       public PlayerStats Stats;
+    [JsonProperty("basestats")] public PlayerStats BaseStats;
 
     /*
     public Character(string name, string description, int hp, int maxhp, Equipment equipment, string[] inventory, Stats stats)
@@ -62,5 +63,42 @@ public class Character
         List<string> list = Inventory.ToList();
         list = list.OrderBy(x => x == "").ToList();
         Inventory = list.ToArray();
+    }
+
+    public void EquipItem(string name)
+    {
+        Item item = Global.items.Find(x => x.Name == name);
+        if (item == null)
+        {
+            Stats.Attack = BaseStats.Attack;
+            Stats.Defense = BaseStats.Defense;
+        }
+        else
+        {
+            if (item.Type == "weapon")
+            {
+                for (int i = 0; i < WeaponInventory.Length; i++)
+                {
+                    if (WeaponInventory[i] == name)
+                    {
+                        WeaponInventory[i] = "";
+                        break;
+                    }
+                }
+                Stats.Attack = BaseStats.Attack + item.Attack;
+            }
+            else
+            {
+                for (int i = 0; i < ArmorInventory.Length; i++)
+                {
+                    if (ArmorInventory[i] == name)
+                    {
+                        ArmorInventory[i] = "";
+                        break;
+                    }
+                }
+                Stats.Defense = BaseStats.Defense + item.Defence;
+            }
+        }
     }
 }

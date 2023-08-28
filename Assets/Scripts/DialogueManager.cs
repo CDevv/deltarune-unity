@@ -174,7 +174,7 @@ public class DialogueManager : MonoBehaviour
 		{
 			textboxImage.color = new Color(255, 255, 255, 0);
 		}
-		else if (Textbox.Character != "Narrator" || Textbox.Character != "options")
+		else if (Textbox.Character != "Narrator" && Textbox.Character != "options")
 		{
 			textboxImage.color = new Color(255, 255, 255, 255);
 			textboxImage.sprite = Resources.Load<Sprite>("Sprites/Faces/" + Faces[Textbox.Character]);

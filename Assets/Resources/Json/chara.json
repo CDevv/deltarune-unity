@@ -13,7 +13,12 @@
         "inventory": ["cocaine", "weed", "", "", "", "", "", ""],
 		"weaponinv": ["sword", "", "", "", "", "", "", ""],
 		"armorinv": ["", "", "", "", "", "", "", ""],
-        "stats": {
+		"stats": {
+            "attack": 10,
+            "defense": 2,
+            "magic": 0
+        },
+        "basestats": {
             "attack": 10,
             "defense": 2,
             "magic": 0
@@ -37,6 +42,11 @@
             "attack": 0,
             "defense": 0,
             "magic": 0
+        },
+		"basestats": {
+            "attack": 0,
+            "defense": 0,
+            "magic": 0
         }
     }, {
         "inParty": true,
@@ -54,6 +64,11 @@
 		"weaponinv": ["", "", "", "", "", "", "", ""],
 		"armorinventory": ["", "", "", "", "", "", "", ""],
         "stats": {
+            "attack": 0,
+            "defense": 0,
+            "magic": 0
+        },
+		"basestats": {
             "attack": 0,
             "defense": 0,
             "magic": 0

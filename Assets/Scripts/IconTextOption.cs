@@ -12,6 +12,8 @@ public class IconTextOption : MonoBehaviour
     Color disabledColor = new Color(0.7843137f, 0.7843137f, 0.7843137f);
 
     bool imgHidden = false;
+
+    public int value;
     // Start is called before the first frame update
     void Start()
     {

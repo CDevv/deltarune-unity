@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Linq;
+using UnityEngine.TextCore.Text;
 
 public class EquipmentPage : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class EquipmentPage : MonoBehaviour
 
     Character selectedChar;
     string selectedEquipSlot;
+    string selectedArmorSlot;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +37,31 @@ public class EquipmentPage : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void FixedUpdate()
+    {
+        //float inputHorizontal = Input.GetAxisRaw("Horizontal");
+        float inputVertical = Input.GetAxisRaw("Vertical");
+        GameObject gameObject = EventSystem.current.currentSelectedGameObject;
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) //up
+        {
+
+            if (gameObject.name == "Option_1")
+            {
+                scrollable.ScrollUp();
+                ArmorSlotSelect(new BaseEventData(EventSystem.current));
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow)) // down
+        {
+            if (gameObject.name == "Option_5")
+            {
+                scrollable.ScrollDown();
+                ArmorSlotSelect(new BaseEventData(EventSystem.current));
+            }
+        }
     }
 
     public void Setup()
@@ -205,6 +232,7 @@ public class EquipmentPage : MonoBehaviour
 
     public void ArmorSlotSelect(BaseEventData baseEvent)
     {
+
         GameObject gameObject = baseEvent.selectedObject;
         IconTextOption option = gameObject.GetComponent<IconTextOption>();
         RectTransform imgRect = option.img.GetComponent<RectTransform>();
@@ -213,6 +241,20 @@ public class EquipmentPage : MonoBehaviour
         Vector2 vector = new Vector2(imgRect.position.x + 16, imgRect.position.y);
         heartRect.position = vector;
         option.ToggleImageActive(false);
+
+        if (option.GetText() != "(Nothing.)")
+        {
+            Item item = Global.items.Find(x => x.Name == option.GetText());
+            statsText["AttackStat"].text = $"Attack: {selectedChar.BaseStats.Attack + item.Attack}";
+            statsText["DefenceStat"].text = $"Defence: {selectedChar.BaseStats.Defense + item.Defence}";
+        }
+        else
+        {
+            statsText["AttackStat"].text = $"Attack: {selectedChar.BaseStats.Attack}";
+            statsText["DefenceStat"].text = $"Defence: {selectedChar.BaseStats.Defense}";
+        }
+        scrollable.selectedItem = option.value;
+        selectedArmorSlot = gameObject.name;
     }
 
     public void ArmorSlotDeselect(BaseEventData baseEvent)
@@ -246,6 +288,8 @@ public class EquipmentPage : MonoBehaviour
                 selectedChar.Equipment.Armor2 = itemName;
                 break;
         }
+        selectedChar.EquipItem(itemName);
+        EquipCharRefresh(selectedChar.Name);
         Level2();
     }
 
@@ -253,7 +297,7 @@ public class EquipmentPage : MonoBehaviour
     public void HeartPos()
     {
         RectTransform rect = Global.gameMenu.heart.GetComponent<RectTransform>();
-        Vector3 vector = new Vector3(charIconPos[childrenCount - 1], 80);
+        Vector3 vector = new Vector3(charIconPos[childrenCount - 1], 106);
         rect.transform.localPosition = vector;
     }
 }
