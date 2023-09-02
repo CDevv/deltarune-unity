@@ -64,14 +64,6 @@ public class GameMenu : MonoBehaviour
         RectTransform rect = heart.GetComponent<RectTransform>();
         Animator animator = heart.GetComponent<Animator>();
         animator.SetBool("Selecting", value);
-        if (value)
-        {
-            rect.sizeDelta = new Vector2(32, 16);
-        }
-        else
-        {
-            rect.sizeDelta = new Vector2(16, 16);
-        }
     }
 
     public void BaseButtonHover(BaseEventData baseEvent)
@@ -79,7 +71,7 @@ public class GameMenu : MonoBehaviour
         GameObject button = baseEvent.selectedObject;
         RectTransform rect = heart.GetComponent<RectTransform>();
         RectTransform optionRect = button.GetComponent<RectTransform>();
-        Vector2 vector2 = new Vector2(optionRect.position.x - (optionRect.rect.width / 2) - 16, optionRect.position.y - 3);
+        Vector2 vector2 = new Vector2(optionRect.position.x - (optionRect.rect.width / 2) - 20, optionRect.position.y);
         rect.position = vector2;
     }
 

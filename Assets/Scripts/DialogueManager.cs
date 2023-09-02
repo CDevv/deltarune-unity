@@ -20,6 +20,7 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Luminosity.IO;
 using Newtonsoft.Json;
 
 public class DialogueManager : MonoBehaviour
@@ -62,10 +63,10 @@ public class DialogueManager : MonoBehaviour
 
 	void Update()
 	{
-		float inputHorizontal = Input.GetAxisRaw("Horizontal");
-		float inputVertical = Input.GetAxisRaw("Vertical");
+		float inputHorizontal = InputManager.GetAxisRaw("Horizontal");
+		float inputVertical = InputManager.GetAxisRaw("Vertical");
 
-		if (Input.GetButtonDown("Confirm"))
+		if (InputManager.GetButtonDown("Confirm"))
 		{
 			if (!optionsAvailable)
 			{

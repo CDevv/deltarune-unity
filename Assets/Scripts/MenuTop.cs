@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Luminosity.IO;
 
 public class MenuTop : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class MenuTop : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetButtonDown("Menu") && enableMenu == true)
+        if (InputManager.GetKeyDown(Global.config.keyMenu) && enableMenu == true)
         {
             if (Global.gameMenu.level == 0)
             {
@@ -67,7 +68,7 @@ public class MenuTop : MonoBehaviour
 
         }
 
-        if (Input.GetButtonDown("ReturnMenu"))
+        if (InputManager.GetButtonDown("ReturnMenu"))
         {
             if (Global.gameMenu.level == 1)
             {
@@ -188,5 +189,20 @@ public class MenuTop : MonoBehaviour
     public void SetItemDesc(string desc)
     {
         itemDesc.GetComponentInChildren<Text>().text = desc;
+    }
+
+    public void ReturnToTop()
+    {
+        Global.gameMenu.level = 0;
+        menuUI.SetActive(false);
+
+        foreach (Button button in buttons)
+        {
+            button.interactable = true;
+            if (button.gameObject.name == Global.gameMenu.currentPage)
+            {
+                button.Select();
+            }
+        }
     }
 }

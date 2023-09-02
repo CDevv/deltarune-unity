@@ -7,11 +7,14 @@ public class ValueOption : MonoBehaviour
 {
     public int value;
     public string strValue;
+    public bool boolValue;
     public string type;
 
     Button button;
     public Text title;
     public Text valueText;
+
+    public bool keyPress;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +48,10 @@ public class ValueOption : MonoBehaviour
                 valueText.text = value.ToString();
                 break;
             case "percent":
-                valueText.text = value.ToString() + "%";
+                if (value >= 0 && value <= 100)
+                {
+                    valueText.text = value.ToString() + "%";
+                }
                 break;
         }
     }
@@ -70,8 +76,33 @@ public class ValueOption : MonoBehaviour
         }
     }
 
+    public void SetBool(bool v)
+    {
+        this.boolValue = v;
+        if (type == "bool")
+        {
+            if (v)
+            {
+                valueText.text = "ON";
+            }
+            else
+            {
+                valueText.text = "OFF";
+            }
+        }
+    }
+
     public void SelectBtn()
     {
         button.Select();
+    }
+
+    public void ToggleKeyInput()
+    {
+        keyPress = !keyPress;
+        if (keyPress)
+        {
+            valueText.text = "Press a key.";
+        }
     }
 }

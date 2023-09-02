@@ -1,6 +1,13 @@
 {
-	"volume": 100,
+	"volume": 60,
 	"vfx": false,
 	"fullscreen": false,
-	"autorun": false
+	"autorun": false,
+	"keyDOWN": 274,
+	"keyUP": 273,
+	"keyLEFT": 276,
+	"keyRIGHT": 275,
+	"keyCONFIRM": 122,
+	"keyCANCEL": 120,
+	"keyMENU": 99
 }

@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Luminosity.IO;
 
 public class PlayerController : MonoBehaviour
 {
@@ -70,8 +71,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (!walking)
         {
-            inputHorizontal = Input.GetAxisRaw("Horizontal");
-            inputVertical = Input.GetAxisRaw("Vertical");
+            inputHorizontal = InputManager.GetAxisRaw("Horizontal");
+            inputVertical = InputManager.GetAxisRaw("Vertical");
 
             speedSquared = inputHorizontal * inputHorizontal + inputVertical * inputVertical;
             anim.SetFloat("Speed", speedSquared);
@@ -93,7 +94,13 @@ public class PlayerController : MonoBehaviour
                 anim.Play("Base Layer.Movement", 0, 0f);
             }
 
-            if (Input.GetButton("Sprint"))
+            if (InputManager.GetButton("Sprint"))
+            {
+                anim.speed = 1.5f;
+                inputHorizontal *= 1.5f;
+                inputVertical *= 1.5f;
+            }
+            else if (Global.config.Autorun)
             {
                 anim.speed = 1.5f;
                 inputHorizontal *= 1.5f;
@@ -101,13 +108,13 @@ public class PlayerController : MonoBehaviour
             }
             else { anim.speed = 1f; }
 
-            if (Input.GetButtonDown("Confirm")) // Enter or Z key
+            if (InputManager.GetButtonDown("Confirm")) // Enter or Z key
             {
                 talkbc.isTrigger = true;
                 talk.SetActive(true);
                 talk.transform.localPosition = direction;
             }
-            if (Input.GetButtonUp("Confirm"))
+            if (InputManager.GetButtonUp("Confirm"))
             {
                 talkbc.isTrigger = false;
                 talk.SetActive(false);
